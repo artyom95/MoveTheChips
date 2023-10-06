@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ChipSelector : MonoBehaviour
 {
-    public event Action<Chip > OnChipSelected;
+    public event Action<Chip > ChipSelected;
 
-    public event Action<Chip> OnPlaceForChipSelected;
-    public event Action OnPlaceSelected;
+    public event Action<Chip> PlaceForChipSelected;
+    public event Action PlaceSelected;
 
     private bool _isChipSelect;
 
@@ -30,14 +30,22 @@ public class ChipSelector : MonoBehaviour
             if (Physics.Raycast(ray, out var hitInfo))
             {
                 var chipWithoutColor = hitInfo.collider.GetComponent<Chip>();
+                
+                if (chipWithoutColor == null)
+                {
+                    ChangePlaceStateSelector();
+                    ChangeStateSelector();
+                    _chipWithColor.ResetOutline();
+                    return;
+                }
                 var outline = chipWithoutColor.GetComponent<Outline>();
                 var transparentMaterial = chipWithoutColor.GetComponent<IHasTransparentMaterial>();
                 if (transparentMaterial != null && outline.OutlineWidth > 0 && chipWithoutColor.isActiveAndEnabled)
                 {
                     Debug.Log("Place was chose");
                     _chipWithColor.ResetOutline();
-                    OnPlaceForChipSelected?.Invoke(chipWithoutColor);
-                    OnPlaceSelected?.Invoke();
+                    PlaceForChipSelected?.Invoke(chipWithoutColor);
+                    PlaceSelected?.Invoke();
                     ChangePlaceStateSelector();
                 }
             }
@@ -56,7 +64,7 @@ public class ChipSelector : MonoBehaviour
                 {
                     Debug.Log("Object was chose");
                     _chipWithColor.SetOutline();
-                    OnChipSelected?.Invoke(_chipWithColor);
+                    ChipSelected?.Invoke(_chipWithColor);
                    ChangeStateSelector();
                     ChangePlaceStateSelector();
                 }
@@ -66,6 +74,11 @@ public class ChipSelector : MonoBehaviour
         
     }
 
+    public void ResetChip()
+    {
+        _chipWithColor.ResetOutline();
+        ChangeStateSelector();
+    }
     public void ChangeStateSelector()
     {
         _isChipSelect = !_isChipSelect;

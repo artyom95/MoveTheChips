@@ -36,27 +36,29 @@ public class GameController : MonoBehaviour
 
     private void SubscribeMethods()
     {
-        _chipSelector.OnChipSelected += _dataDfsLoader.FindMovingPlace;
-        _chipSelector.OnChipSelected += _chipMover.GetMovementObject;
-        _chipSelector.OnPlaceForChipSelected += _chipMover.GetDestinationPlace;
-        _chipSelector.OnPlaceSelected += _screenDisplayLoader.TurnOffChipsForClick;
-        _dataDfsLoader.OnMovingPlaceFound += _screenDisplayLoader.ShowFoundChipForClick;
-        _chipMover.OnMoveCompleted += _chipSelector.ChangeStateSelector;
+        _chipSelector.ChipSelected += _dataDfsLoader.FindMovingPlace;
+        _chipSelector.ChipSelected += _chipMover.GetMovementObject;
+        _chipSelector.PlaceForChipSelected += _chipMover.GetDestinationPlace;
+        _chipSelector.PlaceSelected += _screenDisplayLoader.TurnOffChipsForClick;
+        _dataDfsLoader.MovingPlaceFound += _screenDisplayLoader.ShowFoundChipForClick;
+        _dataDfsLoader.MovingPlaceNotFound += _chipSelector.ResetChip;
+        _chipMover.MoveCompleted += _chipSelector.ChangeStateSelector;
 
     }
     // Update is called once per frame
     private void OnDestroy()
     {
-        _chipSelector.OnChipSelected -= _dataDfsLoader.FindMovingPlace;
-        _dataDfsLoader.OnMovingPlaceFound -= _screenDisplayLoader.ShowFoundChipForClick;
+        _chipSelector.ChipSelected -= _dataDfsLoader.FindMovingPlace;
+        _dataDfsLoader.MovingPlaceFound -= _screenDisplayLoader.ShowFoundChipForClick;
+        _dataDfsLoader.MovingPlaceNotFound -= _chipSelector.ResetChip;
+
+        _chipSelector.ChipSelected -= _chipMover.GetMovementObject;
+        _chipSelector.PlaceForChipSelected -= _chipMover.GetDestinationPlace;
         
-        _chipSelector.OnChipSelected -= _chipMover.GetMovementObject;
-        _chipSelector.OnPlaceForChipSelected -= _chipMover.GetDestinationPlace;
-        
-        _chipSelector.OnPlaceSelected -= _screenDisplayLoader.TurnOffChipsForClick;
+        _chipSelector.PlaceSelected -= _screenDisplayLoader.TurnOffChipsForClick;
 
         
-        _chipMover.OnMoveCompleted -= _chipSelector.ChangeStateSelector;
+        _chipMover.MoveCompleted -= _chipSelector.ChangeStateSelector;
       
     }
 

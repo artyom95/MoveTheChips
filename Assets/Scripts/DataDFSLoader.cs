@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class DataDFSLoader : MonoBehaviour
 {
-    public event Action<List<Vector2>> OnMovingPlaceFound;
+    public event Action<List<Vector2>> MovingPlaceFound;
+    public event Action MovingPlaceNotFound;
     [SerializeField] private PositionCalculator _positionCalculator;
 
     private int[,] _chipsArray;
@@ -111,10 +112,15 @@ public class DataDFSLoader : MonoBehaviour
         DFS(startPoint);
         if (_highlightPlacesPositions.Count > 0)
         {
-            OnMovingPlaceFound?.Invoke(_highlightPlacesPositions);
+            MovingPlaceFound?.Invoke(_highlightPlacesPositions);
+        }
+        else
+        {
+            MovingPlaceNotFound?.Invoke();
         }
 
         Array.Clear(_uses, 0, _uses.Length);
+        _highlightPlacesPositions.Clear();
     }
 
     private void DFS(int start)

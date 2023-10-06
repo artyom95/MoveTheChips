@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ChipMover : MonoBehaviour
 {
-    public event Action OnMoveCompleted;
+    public event Action MoveCompleted;
 
     [SerializeField] private float _movingDuration;
     [SerializeField] private PositionCalculator _positionCalculator;
@@ -46,7 +46,7 @@ public class ChipMover : MonoBehaviour
         var indexFirstPlaceChipCell = new Vector2(indexFirstPlaceChipWorld.x, indexFirstPlaceChipWorld.z);
         var sequence = DOTween.Sequence();
         sequence.Append(_chip.transform.DOPath(arrayPath, _movingDuration, pathType, pathMode));
-           sequence.AppendCallback(() => OnMoveCompleted?.Invoke());
+           sequence.AppendCallback(() => MoveCompleted?.Invoke());
                sequence.AppendCallback(() => _chip.SetCoordinate(arrayPath[^1]));
                    sequence.AppendCallback(() => ChangeChipsArray(indexFirstPlaceChipCell));
     }
