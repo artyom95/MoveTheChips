@@ -13,7 +13,7 @@ public class SelectFirstNodeState : MonoBehaviour, IState<GameContext>
     [SerializeField] private PathFinder _pathFinder;
     private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
-    private int _amountMoves  = 0;
+    private int _amountMoves ;
 
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
@@ -23,8 +23,7 @@ public class SelectFirstNodeState : MonoBehaviour, IState<GameContext>
 
     public void OnEnter()
     {
-       // _nodeSelector.ChoseAnotherNodeModel += ResetHighlightNodes;
-        _nodeSelector.FirstNodeModelSelected += SaveDataType;
+         _nodeSelector.FirstNodeModelSelected += SaveDataType;
         if (_amountMoves ==0)
         {
             
@@ -64,7 +63,6 @@ public class SelectFirstNodeState : MonoBehaviour, IState<GameContext>
 
     public void OnExit()
     {
-       // _nodeSelector.ChoseAnotherNodeModel -= ResetHighlightNodes;
         _nodeSelector.FirstNodeModelSelected -= SaveDataType;
     }
 

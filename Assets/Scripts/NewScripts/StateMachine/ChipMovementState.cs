@@ -27,23 +27,16 @@ namespace NewScripts.StateMachine
             }
 
             _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
-           var sequence = DOTween.Sequence();
-           /*  sequence.Join(chip.transform.DOPath(path, _duration))
-                 .AppendCallback(() => _gameContext.StartNodeModel.ResetChipModel())
-                 .AppendCallback(() => _gameContext.FinishNodeModel.SetChipModel(chip))
-                 .AppendCallback(() => _stateMachine.Enter<FinishGameState>());
-             */   
-             sequence.Join(chip.transform.DOPath(path, _duration))
-                 .AppendCallback(() => _gameContext.StartNodeModel.ResetChipModel())
-                 .AppendCallback(() => _gameContext.FinishNodeModel.SetChipModel(chip))
-                 .AppendCallback(() => _stateMachine.Enter<FinishGameState>());
+            var sequence = DOTween.Sequence();
 
+            sequence.Join(chip.transform.DOPath(path, _duration))
+                .AppendCallback(() => _gameContext.StartNodeModel.ResetChipModel())
+                .AppendCallback(() => _gameContext.FinishNodeModel.SetChipModel(chip))
+                .AppendCallback(() => _stateMachine.Enter<FinishGameState>());
         }
 
         public void OnExit()
         {
         }
-
-       
     }
 }

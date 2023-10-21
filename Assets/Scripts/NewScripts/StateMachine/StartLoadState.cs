@@ -10,13 +10,11 @@ namespace NewScripts.StateMachine
         [SerializeField] private GraphPresenter _graphPresenter;
 
         private StateMachine<GameContext> _stateMachine;
-        private GameContext _gameContext;
 
         private List<Vector2> _coordinatesPoints = new();
         private List<Color> _listColors = new();
         private List<int> _initialPointLocation = new();
         private List<Vector2> _connectionsBetweenPointsPairs = new();
-        private int _amountPoints;
         private int[,] _chipsArray;
         private List<int> _finishPointLocation = new();
 
@@ -26,7 +24,6 @@ namespace NewScripts.StateMachine
 
         public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
         {
-            _gameContext = gameContext;
             _stateMachine = stateMachine;
         }
 
@@ -61,7 +58,6 @@ namespace NewScripts.StateMachine
             _finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
 
             _connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
-            _amountPoints = _gameSettings.ScriptableSettings[_index].AmountPoints;
         }
     }
 }

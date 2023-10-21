@@ -8,12 +8,9 @@ namespace NewScripts
         public event Action<NodeModel> FirstNodeModelSelected;
 
         public event Action<NodeModel> SecondNodeModelSelected;
-       // public event Action ChoseAnotherNodeModel;
-
+     
         private int _layerMask;
-
         private bool _isFirstNodeSelect = true;
-
         private bool _isSecondNodeSelect = true;
         private ChipModel _chipWithColor;
 
@@ -22,7 +19,6 @@ namespace NewScripts
             _layerMask = LayerMask.GetMask("ChipModel");
         }
 
-        // Update is called once per frame
         private void Update()
         {
             SelectFirstNode();
@@ -43,9 +39,6 @@ namespace NewScripts
                     {
                         _isFirstNodeSelect = true;
                         _isSecondNodeSelect = true;
-                      //  ChangeStateNodeSelector(1);
-
-                      //  ChangeStateNodeSelector(2);
                         SecondNodeModelSelected?.Invoke(nodeModel);
                     }
                     else
@@ -86,7 +79,6 @@ namespace NewScripts
             if (_chipWithColor != null)
             {
                 _chipWithColor.TurnOffOutline();
-                //  ChoseAnotherNodeModel?.Invoke();
             }
         }
 

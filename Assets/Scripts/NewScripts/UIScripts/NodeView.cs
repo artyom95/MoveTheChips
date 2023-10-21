@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 
 namespace NewScripts.UIScripts
 {
@@ -27,7 +24,6 @@ namespace NewScripts.UIScripts
                 var position = new Vector3(coordinatesPoints[i].x, -coordinatesPoints[i].y, 0);
                 nodeModel.transform.position = position;
                 nodeModel.SetPosition(position);
-                // nodeModel.gameObject.SetActive(false);
                 nodeModel.SetID(i + 1);
                 _nodeModelsList.Add(nodeModel);
                 nodeModel.transform.SetParent(mainPanel.transform);

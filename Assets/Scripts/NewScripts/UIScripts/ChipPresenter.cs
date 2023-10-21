@@ -9,8 +9,7 @@ namespace NewScripts.UIScripts
     {
 
         [SerializeField] private ChipView _chipView;
-        // Start is called before the first frame update
-
+        
         public List <ChipModel> DisplayChips(List<Vector2> coordinatePoints, 
             List<int> initialPointLocation,
             List<Color> listColors, GameObject mainPanel)

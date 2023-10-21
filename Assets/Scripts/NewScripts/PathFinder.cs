@@ -30,10 +30,8 @@ public class PathFinder : MonoBehaviour
 
     public List<Vector3> FindMovingPath(List<NodeModel> nodeModelsList, NodeModel startNodeModel, NodeModel finishNodeModel)
     {
-        var finishPosition = new Vector2();
         _startPosition = new Vector2(startNodeModel.Position.x, startNodeModel.Position.y);
-        //    var coordinatesPointsPath = new List<Vector2>();
-
+     
         int n = nodeModelsList.Count / 3;
         int m = n;
         var nodeArray = CreateNodeArray(n, m, nodeModelsList, finishNodeModel, startNodeModel);
@@ -103,7 +101,6 @@ public class PathFinder : MonoBehaviour
         var end = 1;
         var count = 1;
 
-        //  _coordinatesPointsPath = coordinatesPointsPath;
         while (points.Count > 0)
         {
             for (int i = start; i <= end; i++)
@@ -126,7 +123,6 @@ public class PathFinder : MonoBehaviour
                     indexList.AddFirst(new Vector2(x,y-1));
                     points.Enqueue(new Vector2(x + 1, y));
                     count++;
-                    //  _coordinatesPointsPath.Add(new Vector2(x, y - 1));
                 }
 
                 if (labirint[x, y - 1] == labirint[x,y] - 1 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y-1, nodeArray)] ))
@@ -134,7 +130,6 @@ public class PathFinder : MonoBehaviour
                     indexList.AddFirst(new Vector2(x-1,y-2));
                     points.Enqueue(new Vector2(x, y - 1));
                     count++;
-                    //   _coordinatesPointsPath.Add(new Vector2(x - 1, y - 2));
                 }
 
                 if (labirint[x, y + 1] == labirint[x,y] - 1 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y+1, nodeArray)] ))
@@ -142,7 +137,6 @@ public class PathFinder : MonoBehaviour
                     indexList.AddFirst(new Vector2(x-1,y));
                     points.Enqueue(new Vector2(x, y + 1));
                     count++;
-                    // _coordinatesPointsPath.Add(new Vector2(x - 1, y));
                 }
             }
 
@@ -166,7 +160,6 @@ public class PathFinder : MonoBehaviour
         var end = 1;
         var count = 1;
 
-        //  _coordinatesPointsPath = coordinatesPointsPath;
         while (points.Count > 0)
         {
             for (int i = start; i <= end; i++)
@@ -181,7 +174,6 @@ public class PathFinder : MonoBehaviour
                     labirint[x - 1, y] = step;
                     points.Enqueue(new Vector2(x - 1, y));
                     count++;
-                    //  _coordinatesPointsPath.Add(new Vector2(x - 1, y - 1));
                 }
 
                 if (labirint[x + 1, y] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x+1,y, nodeArray)]))
@@ -189,7 +181,6 @@ public class PathFinder : MonoBehaviour
                     labirint[x + 1, y] = step;
                     points.Enqueue(new Vector2(x + 1, y));
                     count++;
-                    //  _coordinatesPointsPath.Add(new Vector2(x, y - 1));
                 }
 
                 if (labirint[x, y - 1] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y-1, nodeArray)]))
@@ -197,7 +188,6 @@ public class PathFinder : MonoBehaviour
                     labirint[x, y - 1] = step;
                     points.Enqueue(new Vector2(x, y - 1));
                     count++;
-                    //   _coordinatesPointsPath.Add(new Vector2(x - 1, y - 2));
                 }
 
                 if (labirint[x, y + 1] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y+1, nodeArray)]))
@@ -205,18 +195,11 @@ public class PathFinder : MonoBehaviour
                     labirint[x, y + 1] = step;
                     points.Enqueue(new Vector2(x, y + 1));
                     count++;
-                    // _coordinatesPointsPath.Add(new Vector2(x - 1, y));
                 }
             }
 
             if (points.Count == 0)
             {
-                /*  if (labirint[(int)finishPosition.x + 1, (int)finishPosition.y + 1] > 0)
-                {
-                    var labirintValueAtFinish = labirint[(int)finishPosition.x + 1, (int)finishPosition.y + 1];
-                    //   CorrectCoordinatePointsPath(labirint, finishPosition, labirintValueAtFinish);  
-                }
-*/
                 break;
             }
 

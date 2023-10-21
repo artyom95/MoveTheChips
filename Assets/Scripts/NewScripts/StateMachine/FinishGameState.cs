@@ -5,11 +5,9 @@ using UnityEngine;
 
 public class FinishGameState : MonoBehaviour, IState<GameContext>
 {
-    [SerializeField] private NodeSelector _nodeSelector;
     [SerializeField] private GameOverController _gameOverController;
     private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
-
 
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
@@ -49,8 +47,6 @@ public class FinishGameState : MonoBehaviour, IState<GameContext>
             _gameOverController.ShowWinScreen();
             Debug.Log("You Win!!! Congrats");
         }
-
-       
     }
 
     [UsedImplicitly]
