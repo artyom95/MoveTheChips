@@ -22,15 +22,15 @@ MonoBehaviour:
   - {r: 0.6981132, g: 0.07573871, b: 0.07573871, a: 0}
   <AmountPoints>k__BackingField: 9
   <CoordinatesPoints>k__BackingField:
-  - {x: 1, y: 1}
-  - {x: 2, y: 1}
-  - {x: 3, y: 1}
-  - {x: 1, y: 2}
-  - {x: 2, y: 2}
-  - {x: 3, y: 2}
-  - {x: 1, y: 3}
-  - {x: 2, y: 3}
-  - {x: 3, y: 3}
+  - {x: 100, y: 100}
+  - {x: 200, y: 100}
+  - {x: 300, y: 100}
+  - {x: 100, y: 200}
+  - {x: 200, y: 200}
+  - {x: 300, y: 200}
+  - {x: 100, y: 300}
+  - {x: 200, y: 300}
+  - {x: 300, y: 300}
   <InitialPointLocation>k__BackingField: 010000000200000003000000070000000800000009000000
   <FinishPointLocation>k__BackingField: 070000000800000009000000010000000200000003000000
   <NumberConnections>k__BackingField: 8
