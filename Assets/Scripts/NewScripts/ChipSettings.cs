@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NewScripts
 {
-    public class ChipSettings : MonoBehaviour, ILuminable
+    public class ChipSettings :  ILuminable
     {
         public int ID { get; private set; }
         [SerializeField] private OutlineController _outlineController;

@@ -8,19 +8,25 @@ namespace NewScripts.UIScripts
     {
         public event Action ShowBoardsEnded;
 
-        
-        [SerializeField] private GraphView _graphView;
-
-        [SerializeField] private ChipPresenter _chipPresenter;
-
-        [SerializeField] private NodePresenter _nodePresenter;
-
         [SerializeField] private GameObject _mainPanel;
         [SerializeField] private GameObject _secondPanel;
         [SerializeField] private Vector3 _newLineRendererPosition;
         [SerializeField] private Vector3 _newChipPosition;
 
-        private  readonly Vector3 _secondPanelScale = new (0.5f, 0.5f, 0.5f);
+        private GraphView _graphView;
+        private ChipPresenter _chipPresenter;
+        private NodePresenter _nodePresenter;
+      
+        private readonly Vector3 _secondPanelScale = new(0.5f, 0.5f, 0.5f);
+
+        public GraphPresenter(GraphView graphView,
+            ChipPresenter chipPresenter,
+            NodePresenter nodePresenter)
+        {
+            _graphView = graphView;
+            _chipPresenter = chipPresenter;
+            _nodePresenter = nodePresenter;
+        }
 
         public void Initialize(List<Vector2> coordinatesPoints,
             List<Vector2> connectionsBetweenPointPairs,
@@ -32,7 +38,7 @@ namespace NewScripts.UIScripts
                 finishPointLocation, _mainPanel);
             ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
                 listColors, _newLineRendererPosition);
-            
+
             _secondPanel.transform.localPosition = _newChipPosition;
             _secondPanel.transform.localScale = _secondPanelScale;
             ShowBoardsEnded?.Invoke();

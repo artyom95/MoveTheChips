@@ -4,9 +4,14 @@ using UnityEngine;
 namespace NewScripts.UIScripts
 {
     public class NodePresenter : MonoBehaviour
-    {
-        [SerializeField] private NodeView _nodeView;
+    { 
+        
+        private NodeView _nodeView;
 
+        public NodePresenter(NodeView nodeView)
+        {
+            _nodeView = nodeView;
+        }
         public void DisplayNodes(List<ChipModel> listChips, 
             List<Vector2> coordinatesPoints, 
             List<int> initialPointLocation,

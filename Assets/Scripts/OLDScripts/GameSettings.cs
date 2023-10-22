@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
-using NewScripts;
 using UnityEngine;
 
-
-   [Serializable]
+namespace OLDScripts
+{
    public class GameSettings 
    {
       [field:SerializeField]
       public List<ScriptableSettings> ScriptableSettings { get; private set; }
    }
+}
 

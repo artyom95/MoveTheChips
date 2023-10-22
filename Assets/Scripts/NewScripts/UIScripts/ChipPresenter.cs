@@ -5,10 +5,15 @@ using UnityEngine.UIElements;
 
 namespace NewScripts.UIScripts
 {
-    public class ChipPresenter : MonoBehaviour
+    public class ChipPresenter
     {
 
-        [SerializeField] private ChipView _chipView;
+        private readonly ChipView _chipView;
+
+        public ChipPresenter(ChipView chipView)
+        {
+            _chipView = chipView;
+        }
         
         public List <ChipModel> DisplayChips(List<Vector2> coordinatePoints, 
             List<int> initialPointLocation,

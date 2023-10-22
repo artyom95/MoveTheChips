@@ -157,9 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea29bb788b4ea94593593c9c36d9eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _graphView: {fileID: 134556379}
-  _chipPresenter: {fileID: 134556377}
-  _nodePresenter: {fileID: 134556375}
   _mainPanel: {fileID: 1198332540}
   _secondPanel: {fileID: 1185522904}
   _newLineRendererPosition: {x: 480, y: 0, z: 0}
@@ -176,7 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7699531f119aa93478abe8bd7444c64e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodeView: {fileID: 134556376}
 --- !u!114 &134556376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a93f7094d3975b45a3514297b68843f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chipView: {fileID: 134556378}
 --- !u!114 &134556378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,6 +606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 218114396}
+  - component: {fileID: 218114397}
   m_Layer: 0
   m_Name: CompositionRoot
   m_TagString: Untagged
@@ -633,6 +629,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &218114397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218114395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cff691379668d48a9b512b84e4af57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects: []
+  _chipView: {fileID: 134556378}
+  _graphView: {fileID: 134556379}
+  _nodeView: {fileID: 134556376}
+  _gameSetings: {fileID: 690288078}
 --- !u!1 &267272612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,7 +1152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &690288077
 Transform:
   m_ObjectHideFlags: 0
@@ -1196,11 +1212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dccb7e7e8759b049a14ef85ce83f557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selectFirstNodeState: {fileID: 2069118367}
-  _selectSecondNodeState: {fileID: 2069118366}
-  _chipMovementState: {fileID: 2069118369}
-  _finishGameState: {fileID: 2069118368}
-  _startLoadState: {fileID: 2069118371}
 --- !u!4 &847553055
 Transform:
   m_ObjectHideFlags: 0

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using NewScripts;
 using UnityEngine;
+using GameSettings = OLDScripts.GameSettings;
 
 
-    public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour
     {
         [SerializeField] private DataDFSLoader _dataDfsLoader;
 

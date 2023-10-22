@@ -6,7 +6,7 @@ namespace NewScripts.StateMachine
 {
     public class StartLoadState : MonoBehaviour, IState<GameContext>
     {
-        [SerializeField] private GameSettings _gameSettings;
+        [SerializeField] private GameSetings _gameSettings;
         [SerializeField] private GraphPresenter _graphPresenter;
 
         private StateMachine<GameContext> _stateMachine;

@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using NewScripts;
 using UnityEngine;
+using GameSettings = OLDScripts.GameSettings;
 
 public class DataDFSLoader : MonoBehaviour
 {
