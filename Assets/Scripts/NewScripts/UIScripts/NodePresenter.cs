@@ -6,7 +6,7 @@ namespace NewScripts.UIScripts
     public class NodePresenter : MonoBehaviour
     { 
         
-        private NodeView _nodeView;
+        private readonly NodeView _nodeView;
 
         public NodePresenter(NodeView nodeView)
         {

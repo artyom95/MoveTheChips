@@ -26,9 +26,11 @@ public class GameLifeTimeScope : LifetimeScope
         builder.Register<ChipPresenter>(Lifetime.Singleton);
         builder.Register<GraphPresenter>(Lifetime.Singleton);
         builder.Register<NodePresenter>(Lifetime.Singleton);
-
         
-        
+        builder.Register<NodeModel>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<ChipModel>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<PathFinder>(Lifetime.Singleton);
+            
         builder.RegisterInstance(_chipView);
         builder.RegisterInstance(_graphView);
         builder.RegisterInstance(_nodeView);
