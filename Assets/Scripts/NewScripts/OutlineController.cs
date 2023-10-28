@@ -1,28 +1,27 @@
-    using UnityEngine;
+using UnityEngine;
 
-    namespace NewScripts
+namespace NewScripts
+{
+    [RequireComponent(typeof(Outline))]
+    public class OutlineController : MonoBehaviour
     {
-        [RequireComponent(typeof(Outline))]
-        public class OutlineController : MonoBehaviour
+        [SerializeField] private int _highlightIntensity;
+
+        private Outline _outline;
+
+        private void Awake()
         {
-            [SerializeField]
-            private int _highlightIntensity;
-    
-            private Outline _outline;
+            _outline = GetComponent<Outline>();
+        }
 
-            private void Awake()
-            {
-                _outline = GetComponent<Outline>();
-            }
-        
-            public void SetFocus()
-            {
-                _outline.OutlineWidth = _highlightIntensity;
-            }
+        public void SetFocus()
+        {
+            _outline.OutlineWidth = _highlightIntensity;
+        }
 
-            public  void RemoveFocus()
-            {
-                _outline.OutlineWidth = 0;
-            }
+        public void RemoveFocus()
+        {
+            _outline.OutlineWidth = 0;
         }
     }
+}

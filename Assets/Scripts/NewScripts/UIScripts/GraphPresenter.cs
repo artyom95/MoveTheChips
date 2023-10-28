@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NewScripts.UIScripts
 {
-    public class GraphPresenter 
+    public class GraphPresenter
     {
         public event Action ShowBoardsEnded;
 
@@ -22,14 +22,14 @@ namespace NewScripts.UIScripts
             ChipPresenter chipPresenter,
             NodePresenter nodePresenter,
             PanelPresenterFactory panelPresenterFactory,
-             Vector3 newChipPosition)
+            Vector3 newChipPosition)
         {
             _graphView = graphView;
             _chipPresenter = chipPresenter;
             _nodePresenter = nodePresenter;
             _mainPanel = panelPresenterFactory.MainPanel;
             _secondPanel = panelPresenterFactory.SecondPanel;
-             _newChipPosition = newChipPosition;
+            _newChipPosition = newChipPosition;
         }
 
         public void Initialize(List<Vector2> coordinatesPoints,
@@ -41,8 +41,8 @@ namespace NewScripts.UIScripts
             ShowMainBoard(coordinatesPoints, connectionsBetweenPointPairs, initialPointLocation, listColors,
                 finishPointLocation, _mainPanel);
             ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
-                listColors,_newChipPosition);
-            
+                listColors, _newChipPosition);
+
             _secondPanel.transform.localPosition = _newChipPosition;
             _secondPanel.transform.localScale = _secondPanelScale;
             ShowBoardsEnded?.Invoke();

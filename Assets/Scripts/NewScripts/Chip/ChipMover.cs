@@ -22,7 +22,6 @@ namespace NewScripts.Chip
             {
                 return;
             }
-           
         }
 
         private IEnumerator MoveAlongPath(IReadOnlyList<Vector3> path,
@@ -31,18 +30,18 @@ namespace NewScripts.Chip
             StateMachine<GameContext> stateMachine)
         {
             var currentWaypointIndex = 0;
-            
+
             gameContext.StartNodeModel.ResetChipModel();
             while (currentWaypointIndex < path.Count)
             {
                 var targetWaypoint = path[currentWaypointIndex];
                 var currentTime = 0f;
-                while (!Mathf.Approximately(chip.transform.position.x, targetWaypoint.x) || 
+                while (!Mathf.Approximately(chip.transform.position.x, targetWaypoint.x) ||
                        !Mathf.Approximately(chip.transform.position.y, targetWaypoint.y) ||
                        !Mathf.Approximately(chip.transform.position.z, targetWaypoint.z))
                 {
                     chip.transform.position =
-                        Vector3.MoveTowards(chip.transform.position, targetWaypoint, _duration*Time.deltaTime);
+                        Vector3.MoveTowards(chip.transform.position, targetWaypoint, _duration * Time.deltaTime);
                     currentTime += Time.deltaTime;
 
                     yield return null;

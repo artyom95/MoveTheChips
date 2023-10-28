@@ -11,7 +11,7 @@ namespace NewScripts.Node
         public event Action<NodeModel> FirstNodeModelSelected;
 
         public event Action<NodeModel> SecondNodeModelSelected;
-     
+
         private int _layerMask;
         private bool _isFirstNodeSelect = true;
         private bool _isSecondNodeSelect = true;
@@ -27,6 +27,18 @@ namespace NewScripts.Node
             SelectFirstNode();
 
             SelectSecondNode();
+        }
+
+        public void ChangeStateNodeSelector(int countStateSelector)
+        {
+            if (countStateSelector == 1)
+            {
+                _isFirstNodeSelect = false;
+            }
+            else if (countStateSelector == 2)
+            {
+                _isSecondNodeSelect = false;
+            }
         }
 
         private void SelectSecondNode()
@@ -82,18 +94,6 @@ namespace NewScripts.Node
             if (_chipWithColor != null)
             {
                 _chipWithColor.TurnOffOutline();
-            }
-        }
-
-        public void ChangeStateNodeSelector(int countStateSelector)
-        {
-            if (countStateSelector == 1)
-            {
-                _isFirstNodeSelect = false;
-            }
-            else if (countStateSelector == 2)
-            {
-                _isSecondNodeSelect = false;
             }
         }
     }

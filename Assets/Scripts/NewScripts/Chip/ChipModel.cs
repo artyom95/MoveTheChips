@@ -14,7 +14,6 @@ namespace NewScripts.Chip
             ID = id;
         }
 
-
         public void TurnOnOutline()
         {
             _outlineController.SetFocus();

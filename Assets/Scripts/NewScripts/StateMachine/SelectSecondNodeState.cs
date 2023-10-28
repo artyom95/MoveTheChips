@@ -6,28 +6,29 @@ using NewScripts.StateMachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SelectSecondNodeState :   IState <GameContext>
+public class SelectSecondNodeState : IState<GameContext>
 {
     private readonly NodeSelector _nodeSelector;
     private readonly PathFinder _pathFinder;
-    private  readonly SelectFirstNodeState _selectFirstNodeState;
-    
-    private StateMachine <GameContext> _stateMachine;
+    private readonly SelectFirstNodeState _selectFirstNodeState;
+
+    private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
 
-    public SelectSecondNodeState(NodeSelector nodeSelector, PathFinder pathFinder, SelectFirstNodeState selectFirstNodeState)
+    public SelectSecondNodeState(NodeSelector nodeSelector, PathFinder pathFinder,
+        SelectFirstNodeState selectFirstNodeState)
     {
         _nodeSelector = nodeSelector;
         _pathFinder = pathFinder;
         _selectFirstNodeState = selectFirstNodeState;
     }
+
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
         _gameContext = gameContext;
         _stateMachine = stateMachine;
     }
 
-   
 
     public void OnEnter()
     {
@@ -42,11 +43,17 @@ public class SelectSecondNodeState :   IState <GameContext>
         FindPath();
     }
 
+    public void OnExit()
+    {
+        _nodeSelector.SecondNodeModelSelected -= SaveFinishNodeModel;
+        _nodeSelector.FirstNodeModelSelected -= _selectFirstNodeState.SaveDataType;
+    }
+
     private void FindPath()
     {
-        
-        var path =_pathFinder.FindMovingPath(_gameContext.NodeModelsList, _gameContext.StartNodeModel, _gameContext.FinishNodeModel);
-      
+        var path = _pathFinder.FindMovingPath(_gameContext.NodeModelsList, _gameContext.StartNodeModel,
+            _gameContext.FinishNodeModel);
+
         if (path.Count != 0)
         {
             _gameContext.Path = path;
@@ -56,11 +63,5 @@ public class SelectSecondNodeState :   IState <GameContext>
         {
             _stateMachine.Enter<SelectFirstNodeState>();
         }
-    }
-
-    public void OnExit()
-    {
-        _nodeSelector.SecondNodeModelSelected -= SaveFinishNodeModel;
-        _nodeSelector.FirstNodeModelSelected -= _selectFirstNodeState.SaveDataType;
     }
 }

@@ -8,6 +8,7 @@ namespace NewScripts.UIScripts
         [SerializeField] private Material _materialLineRenderer;
         private const int _scalePosition = 2;
         private const int _lineRendererWidth = 10;
+
         public void DisplayGraphs(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
             GameObject mainPanel, Vector3 newPosition = default)
         {
@@ -23,8 +24,8 @@ namespace NewScripts.UIScripts
                 var secondIndexPosition = (int)(connection.y - 1);
                 var secondPosition = new Vector3(coordinatesPoints[secondIndexPosition].x,
                     -coordinatesPoints[secondIndexPosition].y, 0);
-                
-               
+
+
                 var gameObject = new GameObject
                 {
                     name = "line" + numberLine
@@ -33,14 +34,13 @@ namespace NewScripts.UIScripts
                 line.startWidth = _lineRendererWidth;
                 line.endWidth = _lineRendererWidth;
                 line.material = _materialLineRenderer;
-                if (newPosition!=Vector3.zero)
+                if (newPosition != Vector3.zero)
                 {
-                    firstPosition  /=_scalePosition;
+                    firstPosition /= _scalePosition;
                     secondPosition /= _scalePosition;
-                    
-                    line.startWidth = _lineRendererWidth/2;
-                    line.endWidth = _lineRendererWidth/2;
 
+                    line.startWidth = _lineRendererWidth / 2;
+                    line.endWidth = _lineRendererWidth / 2;
                 }
 
                 line.SetPosition(index, firstPosition);
@@ -48,7 +48,7 @@ namespace NewScripts.UIScripts
                 line.SetPosition(index, secondPosition);
 
 
-                if (newPosition!= Vector3.zero)
+                if (newPosition != Vector3.zero)
                 {
                     SetLineRendererNewPosition(line, newPosition);
                 }

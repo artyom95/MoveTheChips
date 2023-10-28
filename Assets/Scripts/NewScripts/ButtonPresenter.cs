@@ -8,13 +8,13 @@ using VContainer;
 public class ButtonPresenter : MonoBehaviour
 {
     private StateMachine<GameContext> _stateMachine;
-    
+
     [Inject]
     public void Construct(StateMachine<GameContext> stateMachine)
     {
         _stateMachine = stateMachine;
     }
-    
+
     [UsedImplicitly]
     public void LoadNextState()
     {

@@ -15,18 +15,17 @@ public class ScreenDisplayLoader : MonoBehaviour
 
     private readonly List<Chip> _listChips = new List<Chip>();
     private readonly List<Chip> _listPlaces = new List<Chip>();
-    
-   
-    private List<Vector2> _coordinatesPoints = new ();
-    private List<Color> _colorList = new ();
+
+
+    private List<Vector2> _coordinatesPoints = new();
+    private List<Color> _colorList = new();
     private List<int> _initialPointLocation = new();
     private List<Vector2> _connectionsBetweenPointsPairs = new();
-    
 
-   
+
     private List<Chip> _listChipsForClick;
 
-    public List<Chip> Initialize( List<Vector2> coordinatesPoints, List<Color> colorList,
+    public List<Chip> Initialize(List<Vector2> coordinatesPoints, List<Color> colorList,
         List<int> initialPointLocation, List<Vector2> connectionsBetweenPointsPairs)
     {
         _coordinatesPoints = coordinatesPoints;
@@ -42,9 +41,9 @@ public class ScreenDisplayLoader : MonoBehaviour
     {
         foreach (var coordinatesPoint in _coordinatesPoints)
         {
-           var positionPlaceForChip = _positionCalculator.ConvertCellToWorld(coordinatesPoint);
-  
-          var place = Instantiate(_chipPrefab);
+            var positionPlaceForChip = _positionCalculator.ConvertCellToWorld(coordinatesPoint);
+
+            var place = Instantiate(_chipPrefab);
             place.transform.position = positionPlaceForChip;
             place.gameObject.SetActive(false);
             place.SetCoordinate(positionPlaceForChip);
@@ -60,8 +59,8 @@ public class ScreenDisplayLoader : MonoBehaviour
             var indexChipPosition = point - 1;
             var chip = Instantiate(_colorChipPrefab);
             var position = _positionCalculator.ConvertCellToWorld(_coordinatesPoints[indexChipPosition]);
-                   
-          chip.transform.position = position;
+
+            chip.transform.position = position;
             chip.SetCoordinate(position);
             chip.SetColor(_colorList[index]);
             _listChips.Add(chip);
@@ -73,7 +72,6 @@ public class ScreenDisplayLoader : MonoBehaviour
 
     public void InstallWallsBetweenChips()
     {
-        
         var firstIndexChip = 0;
         var secondIndexChip = 0;
         var distance = new Vector2();
@@ -97,7 +95,7 @@ public class ScreenDisplayLoader : MonoBehaviour
             }
 
             position = _positionCalculator.ConvertCellToWorld(distance);
-                   if (Math.Abs(firstIndexChip - secondIndexChip) == 3)
+            if (Math.Abs(firstIndexChip - secondIndexChip) == 3)
             {
                 var wall = Instantiate(_verticalPrefabWall);
                 position.z -= 0.5f;
@@ -130,11 +128,11 @@ public class ScreenDisplayLoader : MonoBehaviour
                 }
             }
         }
-        
+
         foreach (var chip in _listChipsForClick)
         {
-          chip.gameObject.SetActive(true);
-          chip.SetOutline();
+            chip.gameObject.SetActive(true);
+            chip.SetOutline();
         }
     }
 

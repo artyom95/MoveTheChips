@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChipSelector : MonoBehaviour
 {
-    public event Action<Chip > ChipSelected;
+    public event Action<Chip> ChipSelected;
 
     public event Action<Chip> PlaceForChipSelected;
     public event Action PlaceSelected;
@@ -19,18 +19,18 @@ public class ChipSelector : MonoBehaviour
     {
         SelectChip();
 
-       SelectPlaceForMoving();
+        SelectPlaceForMoving();
     }
 
     private void SelectPlaceForMoving()
     {
-        if (Input.GetMouseButtonDown(0) && !_isPlaceForChipSelect )
+        if (Input.GetMouseButtonDown(0) && !_isPlaceForChipSelect)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out var hitInfo))
             {
                 var chipWithoutColor = hitInfo.collider.GetComponent<Chip>();
-                
+
                 if (chipWithoutColor == null)
                 {
                     ChangePlaceStateSelector();
@@ -38,6 +38,7 @@ public class ChipSelector : MonoBehaviour
                     _chipWithColor.ResetOutline();
                     return;
                 }
+
                 var outline = chipWithoutColor.GetComponent<Outline>();
                 var transparentMaterial = chipWithoutColor.GetComponent<IHasTransparentMaterial>();
                 if (transparentMaterial != null && outline.OutlineWidth > 0 && chipWithoutColor.isActiveAndEnabled)
@@ -65,13 +66,11 @@ public class ChipSelector : MonoBehaviour
                     Debug.Log("Object was chose");
                     _chipWithColor.SetOutline();
                     ChipSelected?.Invoke(_chipWithColor);
-                   ChangeStateSelector();
+                    ChangeStateSelector();
                     ChangePlaceStateSelector();
                 }
             }
-            
         }
-        
     }
 
     public void ResetChip()
@@ -79,6 +78,7 @@ public class ChipSelector : MonoBehaviour
         _chipWithColor.ResetOutline();
         ChangeStateSelector();
     }
+
     public void ChangeStateSelector()
     {
         _isChipSelect = !_isChipSelect;

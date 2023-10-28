@@ -1,13 +1,12 @@
-
 using NewScripts.Chip;
 
 namespace NewScripts.StateMachine
 {
-    public class ChipMovementState :  IState<GameContext>
+    public class ChipMovementState : IState<GameContext>
     {
-        private  ChipMover _chipMover { get; }
+        private ChipMover _chipMover { get; }
 
-       
+
         private StateMachine<GameContext> _stateMachine;
         private GameContext _gameContext;
 
@@ -15,6 +14,7 @@ namespace NewScripts.StateMachine
         {
             _chipMover = chipMover;
         }
+
         public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
         {
             _gameContext = gameContext;
@@ -31,18 +31,10 @@ namespace NewScripts.StateMachine
             }
 
             _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
-          /*  var sequence = DOTween.Sequence();
-
-            sequence.Join(chip.transform.DOPath(path, _duration))
-                .AppendCallback(() => _gameContext.StartNodeModel.ResetChipModel())
-                .AppendCallback(() => _gameContext.FinishNodeModel.SetChipModel(chip))
-                .AppendCallback(() => _stateMachine.Enter<FinishGameState>());
-        */
-          
-          _chipMover.StartMove(path, chip, _gameContext,_stateMachine);
-          _gameContext.Chip = chip;
+            _chipMover.StartMove(path, chip, _gameContext, _stateMachine);
+            _gameContext.Chip = chip;
         }
-        
+
         public void OnExit()
         {
         }

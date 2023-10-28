@@ -6,7 +6,7 @@ using UnityEngine;
 public class Chip : MonoBehaviour, IHasColor
 {
     public Vector3 CurrentCoordinate { get; private set; }
-    
+
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private OutlineController _outlineController;
     [SerializeField] private List<Material> _materials;

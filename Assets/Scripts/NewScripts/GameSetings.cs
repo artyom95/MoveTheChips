@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace NewScripts
 {
-  [Serializable]
-   public class GameSetings: MonoBehaviour
+    [Serializable]
+    public class GameSetings : MonoBehaviour
 
-   {
-   [field: SerializeField] public List<ScriptableSettings> ScriptableSettings { get; private set; }
-   }
+    {
+        [field: SerializeField] public List<ScriptableSettings> ScriptableSettings { get; private set; }
+    }
 }

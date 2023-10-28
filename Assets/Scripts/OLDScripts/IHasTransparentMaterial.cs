@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-
-public class IHasTransparentMaterial: MonoBehaviour
+public class IHasTransparentMaterial : MonoBehaviour
 {
-   
 }

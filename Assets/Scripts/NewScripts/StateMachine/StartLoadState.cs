@@ -11,7 +11,7 @@ namespace NewScripts.StateMachine
 
         private StateMachine<GameContext> _stateMachine;
         private GameContext _gameContext;
-        
+
         private List<Vector2> _coordinatesPoints = new();
         private List<Color> _listColors = new();
         private List<int> _initialPointLocation = new();
@@ -59,12 +59,9 @@ namespace NewScripts.StateMachine
         private void FillFields()
         {
             _coordinatesPoints = _gameSettings.ScriptableSettings[_index].CoordinatesPoints;
-            
             _listColors = _gameSettings.ScriptableSettings[_index].ColorsChips;
-
             _initialPointLocation = _gameSettings.ScriptableSettings[_index].InitialPointLocation;
             _finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
-
             _connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
         }
     }

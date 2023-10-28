@@ -6,11 +6,11 @@ namespace NewScripts.Node
 {
     public class NodeModel : MonoBehaviour, ILuminable
     {
-        public List<NodeModel> Neighbours { get;  } = new();
+        public List<NodeModel> Neighbours { get; } = new();
         public ChipModel ChipModel { get; private set; }
         public int ID { get; private set; }
         public Vector3 Position { get; private set; }
-    
+
         [SerializeField] private global::OutlineController _outlineController;
 
         public void SetID(int id)
@@ -37,6 +37,7 @@ namespace NewScripts.Node
         {
             Position = position;
         }
+
         public void TurnOnOutline()
         {
             _outlineController.SetFocus();

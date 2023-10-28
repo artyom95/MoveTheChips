@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using NewScripts;
 using NewScripts.Node;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
-using UnityEditor.Experimental.GraphView;
 
 
 public class SelectFirstNodeState : IState<GameContext>

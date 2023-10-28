@@ -7,12 +7,16 @@ namespace NewScripts.UIScripts
 {
     public class NodeView : MonoBehaviour
     {
-        public List<int> FinishPointLocation { get; private set; }= new();
+        public List<int> FinishPointLocation { get; private set; } = new();
 
         [SerializeField] private NodeModel _nodeModel;
 
         private List<NodeModel> _nodeModelsList = new();
 
+        public List<NodeModel> GetNodeModelList()
+        {
+            return _nodeModelsList;
+        }
         public void DisplayNodes(List<ChipModel> listChips,
             List<Vector2> coordinatesPoints,
             List<int> initialPointLocation,
@@ -54,11 +58,6 @@ namespace NewScripts.UIScripts
                 var nodeIndex = initialPointLocation[i];
                 _nodeModelsList[nodeIndex - 1].SetChipModel(listChips[i]);
             }
-        }
-
-        public List<NodeModel> GetNodeModelList()
-        {
-            return _nodeModelsList;
         }
     }
 }

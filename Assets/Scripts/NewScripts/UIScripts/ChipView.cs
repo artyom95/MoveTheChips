@@ -10,7 +10,7 @@ namespace NewScripts.UIScripts
         [SerializeField] private ChipModel _chipModel;
         private List<ChipModel> _chipsList = new();
 
-        public List<ChipModel> DisplayChips(List<Vector2> coordinatePoints, 
+        public List<ChipModel> DisplayChips(List<Vector2> coordinatePoints,
             List<int> initialPointLocation,
             List<Color> colors, GameObject mainPanel)
         {

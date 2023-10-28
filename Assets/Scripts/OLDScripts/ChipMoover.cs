@@ -46,30 +46,31 @@ public class ChipMoover : MonoBehaviour
         var indexFirstPlaceChipCell = new Vector2(indexFirstPlaceChipWorld.x, indexFirstPlaceChipWorld.z);
         var sequence = DOTween.Sequence();
         sequence.Append(_chip.transform.DOPath(arrayPath, _movingDuration, pathType, pathMode));
-           sequence.AppendCallback(() => MoveCompleted?.Invoke());
-               sequence.AppendCallback(() => _chip.SetCoordinate(arrayPath[^1]));
-                   sequence.AppendCallback(() => ChangeChipsArray(indexFirstPlaceChipCell));
+        sequence.AppendCallback(() => MoveCompleted?.Invoke());
+        sequence.AppendCallback(() => _chip.SetCoordinate(arrayPath[^1]));
+        sequence.AppendCallback(() => ChangeChipsArray(indexFirstPlaceChipCell));
     }
 
     private void ChangeChipsArray(Vector2 indexFirstPlaceChipCell)
     {
         var valueChip = FindValueChip(indexFirstPlaceChipCell);
-       for (var i = 0; i < _chipsArray.GetLength(0); i++)
-       {
-           for (var i1 = 0; i1 < _chipsArray.GetLength(1); i1++)
-           {
-               if (_chipsArray [i,i1] == valueChip)
-               {
-                   _chipsArray[i, i1] = 0;
-                   break;
-               }
-           }
-       }
+        for (var i = 0; i < _chipsArray.GetLength(0); i++)
+        {
+            for (var i1 = 0; i1 < _chipsArray.GetLength(1); i1++)
+            {
+                if (_chipsArray[i, i1] == valueChip)
+                {
+                    _chipsArray[i, i1] = 0;
+                    break;
+                }
+            }
+        }
+
         var indexLastPlace = _coordinatesPointsPath.Last();
         _chipsArray[(int)indexLastPlace.x, (int)indexLastPlace.y] = valueChip;
     }
 
-    private int FindValueChip(Vector2 indexFirstPlaceChipCell )
+    private int FindValueChip(Vector2 indexFirstPlaceChipCell)
     {
         var numberPoint = 0;
         foreach (var vector2 in _coordinatesPoint)
@@ -96,7 +97,6 @@ public class ChipMoover : MonoBehaviour
             {
                 break;
             }
-
         }
 
         var numberPairsPositionInCellAtChipsArray = 0;
@@ -114,6 +114,7 @@ public class ChipMoover : MonoBehaviour
 
         return default;
     }
+
     private void FindPath()
     {
         var finishPosition = FindFinishPositionInArray();
@@ -215,11 +216,12 @@ public class ChipMoover : MonoBehaviour
 
             if (points.Count == 0)
             {
-                if (labirint[(int)finishPosition.x+1][(int)finishPosition.y+1] > 0)
+                if (labirint[(int)finishPosition.x + 1][(int)finishPosition.y + 1] > 0)
                 {
-                    var labirintValueAtFinish = labirint[(int)finishPosition.x+1][(int)finishPosition.y+1];
-                  CorrectCoordinatePointsPath(labirint, finishPosition, labirintValueAtFinish);  
+                    var labirintValueAtFinish = labirint[(int)finishPosition.x + 1][(int)finishPosition.y + 1];
+                    CorrectCoordinatePointsPath(labirint, finishPosition, labirintValueAtFinish);
                 }
+
                 break;
             }
 
@@ -237,26 +239,27 @@ public class ChipMoover : MonoBehaviour
         {
             for (var i1 = 0; i1 < labirint.Length; i1++)
             {
-                if (labirint[i][i1] == finishValue && (finishPosition.x+1 != i || finishPosition.y+1!=i1))
+                if (labirint[i][i1] == finishValue && (finishPosition.x + 1 != i || finishPosition.y + 1 != i1))
                 {
-                   CorrectCoordinatePointsPath(new Vector2(i-1,i1-1));
+                    CorrectCoordinatePointsPath(new Vector2(i - 1, i1 - 1));
                 }
             }
         }
     }
 
-    private void  CorrectCoordinatePointsPath(Vector2 positionInArray)
+    private void CorrectCoordinatePointsPath(Vector2 positionInArray)
     {
         foreach (var vector2 in _coordinatesPointsPath)
         {
             if (vector2 != positionInArray)
             {
                 _correctedCoordinatesPointsPath.Add(vector2);
-            } 
+            }
         }
 
         _coordinatesPointsPath = _correctedCoordinatesPointsPath;
     }
+
     private void FillListChipsPosition()
     {
         var pathForChipMoving = new List<Vector2>();

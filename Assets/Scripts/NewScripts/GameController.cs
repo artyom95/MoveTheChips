@@ -1,21 +1,20 @@
-using System;
 using NewScripts.StateMachine;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
 namespace NewScripts
 {
-   
     public class GameController : IStartable
     {
         private readonly StartLoadState _startLoadState;
         private readonly SelectFirstNodeState _selectFirstNodeState;
         private readonly SelectSecondNodeState _selectSecondNodeState;
         private readonly FinishGameState _finishGameState;
+
         private readonly ChipMovementState _chipMovementState;
-       // private StateMachine<GameContext> _stateMachine;
-        public GameController(//StateMachine<GameContext> stateMachine,
+
+        // private StateMachine<GameContext> _stateMachine;
+        public GameController( //StateMachine<GameContext> stateMachine,
             StartLoadState startLoadState,
             SelectFirstNodeState selectFirstNodeState,
             SelectSecondNodeState selectSecondNodeState,
@@ -28,14 +27,11 @@ namespace NewScripts
             _selectSecondNodeState = selectSecondNodeState;
             _finishGameState = finishGameState;
             _chipMovementState = chipMovementState;
-
-            
         }
 
         void IStartable.Start()
         {
-
-           var stateMachine = new StateMachine<GameContext>
+            var stateMachine = new StateMachine<GameContext>
             (
                 _startLoadState,
                 _selectFirstNodeState,
@@ -44,9 +40,7 @@ namespace NewScripts
                 _chipMovementState
             );
             stateMachine.Initialize(new GameContext());
-           
-           stateMachine.Enter<StartLoadState>();
+            stateMachine.Enter<StartLoadState>();
         }
-        
     }
 }

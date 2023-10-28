@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using NewScripts.Node;
 using UnityEngine;
 
-public class PathFinder 
+public class PathFinder
 {
     private Vector2 _finishPosition;
     private Vector2 _startPosition;
+
     public List<NodeModel> FindHighlightingPath(NodeModel currentNodeModel)
     {
         var queueNodeModels = new Queue<NodeModel>();
@@ -29,10 +30,11 @@ public class PathFinder
         return listHighlightingNode;
     }
 
-    public List<Vector3> FindMovingPath(List<NodeModel> nodeModelsList, NodeModel startNodeModel, NodeModel finishNodeModel)
+    public List<Vector3> FindMovingPath(List<NodeModel> nodeModelsList, NodeModel startNodeModel,
+        NodeModel finishNodeModel)
     {
         _startPosition = new Vector2(startNodeModel.Position.x, startNodeModel.Position.y);
-     
+
         int n = nodeModelsList.Count / 3;
         int m = n;
         var nodeArray = CreateNodeArray(n, m, nodeModelsList, finishNodeModel, startNodeModel);
@@ -61,12 +63,12 @@ public class PathFinder
 
         FillArraySteps(points, labirint, nodeArray, nodeModelsList);
 
-       var indexList = FillListIndexPoints(labirint, nodeArray, nodeModelsList);
-      var rootArray = FindRootList(indexList, nodeArray, nodeModelsList);
-      return rootArray;
+        var indexList = FillListIndexPoints(labirint, nodeArray, nodeModelsList);
+        var rootArray = FindRootList(indexList, nodeArray, nodeModelsList);
+        return rootArray;
     }
 
-    private List<Vector3> FindRootList(LinkedList<Vector2> indexList, int [,] nodeArray, List<NodeModel> nodeModelsList)
+    private List<Vector3> FindRootList(LinkedList<Vector2> indexList, int[,] nodeArray, List<NodeModel> nodeModelsList)
     {
         var rootArray = new List<Vector3>();
         foreach (var vector2 in indexList)
@@ -96,7 +98,7 @@ public class PathFinder
         var points = new Queue<Vector2>();
         indexList.AddFirst(new Vector2(_finishPosition.x - 1, _finishPosition.y - 1));
         points.Enqueue(_finishPosition);
-        
+
         var step = 1;
         var start = 1;
         var end = 1;
@@ -109,33 +111,37 @@ public class PathFinder
                 var currentCoordinates = points.Dequeue();
                 var x = (int)currentCoordinates.x;
                 var y = (int)currentCoordinates.y;
-                var index = FindNodeModelID(x,y, nodeArray);
+                var index = FindNodeModelID(x, y, nodeArray);
                 var currentNodeModel = nodeModelsList[index];
-                if (labirint[x - 1, y] == labirint[x,y] - 1 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x-1,y, nodeArray)] ))
+                if (labirint[x - 1, y] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x - 1, y, nodeArray)]))
                 {
-                    indexList.AddFirst(new Vector2(x-2,y-1));
+                    indexList.AddFirst(new Vector2(x - 2, y - 1));
                     points.Enqueue(new Vector2(x - 1, y));
                     count++;
                     //  _coordinatesPointsPath.Add(new Vector2(x - 1, y - 1));
                 }
 
-                if (labirint[x + 1, y] == labirint[x,y] - 1 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x+1,y, nodeArray)] ))
+                if (labirint[x + 1, y] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x + 1, y, nodeArray)]))
                 {
-                    indexList.AddFirst(new Vector2(x,y-1));
+                    indexList.AddFirst(new Vector2(x, y - 1));
                     points.Enqueue(new Vector2(x + 1, y));
                     count++;
                 }
 
-                if (labirint[x, y - 1] == labirint[x,y] - 1 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y-1, nodeArray)] ))
+                if (labirint[x, y - 1] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x, y - 1, nodeArray)]))
                 {
-                    indexList.AddFirst(new Vector2(x-1,y-2));
+                    indexList.AddFirst(new Vector2(x - 1, y - 2));
                     points.Enqueue(new Vector2(x, y - 1));
                     count++;
                 }
 
-                if (labirint[x, y + 1] == labirint[x,y] - 1 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y+1, nodeArray)] ))
+                if (labirint[x, y + 1] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x, y + 1, nodeArray)]))
                 {
-                    indexList.AddFirst(new Vector2(x-1,y));
+                    indexList.AddFirst(new Vector2(x - 1, y));
                     points.Enqueue(new Vector2(x, y + 1));
                     count++;
                 }
@@ -143,7 +149,7 @@ public class PathFinder
 
             if (points.Count == 0)
             {
-               break;
+                break;
             }
 
             start = end + 1;
@@ -154,7 +160,8 @@ public class PathFinder
         return indexList;
     }
 
-    private void FillArraySteps(Queue<Vector2> points, int[,] labirint, int [,] nodeArray, List<NodeModel> nodeModelsList )
+    private void FillArraySteps(Queue<Vector2> points, int[,] labirint, int[,] nodeArray,
+        List<NodeModel> nodeModelsList)
     {
         var step = 1;
         var start = 1;
@@ -168,30 +175,34 @@ public class PathFinder
                 var currentCoordinates = points.Dequeue();
                 var x = (int)currentCoordinates.x;
                 var y = (int)currentCoordinates.y;
-                var index = FindNodeModelID(x,y, nodeArray);
+                var index = FindNodeModelID(x, y, nodeArray);
                 var currentNodeModel = nodeModelsList[index];
-                if (labirint[x - 1, y] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x-1,y, nodeArray)] ))
+                if (labirint[x - 1, y] == 0 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x - 1, y, nodeArray)]))
                 {
                     labirint[x - 1, y] = step;
                     points.Enqueue(new Vector2(x - 1, y));
                     count++;
                 }
 
-                if (labirint[x + 1, y] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x+1,y, nodeArray)]))
+                if (labirint[x + 1, y] == 0 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x + 1, y, nodeArray)]))
                 {
                     labirint[x + 1, y] = step;
                     points.Enqueue(new Vector2(x + 1, y));
                     count++;
                 }
 
-                if (labirint[x, y - 1] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y-1, nodeArray)]))
+                if (labirint[x, y - 1] == 0 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x, y - 1, nodeArray)]))
                 {
                     labirint[x, y - 1] = step;
                     points.Enqueue(new Vector2(x, y - 1));
                     count++;
                 }
 
-                if (labirint[x, y + 1] == 0 && IsNodesNeighbours(currentNodeModel, nodeModelsList[FindNodeModelID(x,y+1, nodeArray)]))
+                if (labirint[x, y + 1] == 0 && IsNodesNeighbours(currentNodeModel,
+                        nodeModelsList[FindNodeModelID(x, y + 1, nodeArray)]))
                 {
                     labirint[x, y + 1] = step;
                     points.Enqueue(new Vector2(x, y + 1));
@@ -210,14 +221,14 @@ public class PathFinder
         }
     }
 
-    private int FindNodeModelID(int x, int y, int [,] nodeArray )
+    private int FindNodeModelID(int x, int y, int[,] nodeArray)
     {
         var id = 0;
         for (var i = 0; i < nodeArray.GetLength(0); i++)
         {
             for (var i1 = 0; i1 < nodeArray.GetLength(1); i1++)
             {
-                if (x-1 == i && y-1 == i1)
+                if (x - 1 == i && y - 1 == i1)
                 {
                     return id;
                 }
@@ -228,6 +239,7 @@ public class PathFinder
 
         return default;
     }
+
     private bool IsNodesNeighbours(NodeModel currentNodeModel, NodeModel nextNodeModel)
     {
         var neighbours = currentNodeModel.Neighbours;
@@ -241,6 +253,7 @@ public class PathFinder
 
         return false;
     }
+
     private int[,] CreateNodeArray(int m, int n, List<NodeModel> nodeModelsList, NodeModel finishNodeModel,
         NodeModel startNodeModel)
     {
