@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using NewScripts;
+using NewScripts.Chip;
+using NewScripts.Node;
 using UnityEngine;
 
 public class GameContext
@@ -14,4 +16,7 @@ public class GameContext
 
    public List<int> FinishPointLocation { get; set; } = new();
    public List<Vector3> Path { get; set; } = new();
+   
+   public ChipModel Chip { get; set; }
+   public int [] FinishIndexChips { get; set; } 
 }

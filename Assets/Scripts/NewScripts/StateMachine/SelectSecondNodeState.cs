@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NewScripts;
+using NewScripts.Node;
 using NewScripts.StateMachine;
 using Unity.VisualScripting;
 using UnityEngine;

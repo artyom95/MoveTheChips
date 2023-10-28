@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using NewScripts.Chip;
+using NewScripts.Node;
 using UnityEngine;
 
 namespace NewScripts.UIScripts

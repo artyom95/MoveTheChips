@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NewScripts.StateMachine;
 using UnityEngine;
 
-namespace NewScripts
+namespace NewScripts.Chip
 {
     public class ChipMover : MonoBehaviour
     {

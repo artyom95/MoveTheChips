@@ -1,4 +1,6 @@
 
+using NewScripts.Chip;
+
 namespace NewScripts.StateMachine
 {
     public class ChipMovementState :  IState<GameContext>
@@ -38,6 +40,7 @@ namespace NewScripts.StateMachine
         */
           
           _chipMover.StartMove(path, chip, _gameContext,_stateMachine);
+          _gameContext.Chip = chip;
         }
         
         public void OnExit()

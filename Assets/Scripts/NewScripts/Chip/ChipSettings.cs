@@ -1,12 +1,11 @@
 using UnityEngine;
 
-namespace NewScripts
+namespace NewScripts.Chip
 {
-    public class ChipModel : MonoBehaviour, ILuminable
+    public class ChipSettings : MonoBehaviour,  ILuminable
     {
-        public Vector3 Position { get; private set; }
         public int ID { get; private set; }
-        [SerializeField] private OutlineController _outlineController;
+        [SerializeField] private global::OutlineController _outlineController;
         [SerializeField] private MeshRenderer _meshRenderer;
 
         public void SetID(int id)
@@ -28,12 +27,6 @@ namespace NewScripts
         public void SetColor(Color color)
         {
             _meshRenderer.material.color = color;
-        }
-
-
-        public void SetPosition(Vector3 position)
-        {
-            Position = position;
         }
     }
 }

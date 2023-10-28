@@ -1,8 +1,10 @@
 using System;
+using NewScripts.Chip;
+using NewScripts.Node;
 using UnityEngine;
 using VContainer.Unity;
 
-namespace NewScripts
+namespace NewScripts.Node
 {
     public class NodeSelector : MonoBehaviour
     {

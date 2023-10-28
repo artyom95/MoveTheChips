@@ -1,4 +1,6 @@
 using NewScripts;
+using NewScripts.Chip;
+using NewScripts.Node;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
 using UnityEngine;
@@ -13,7 +15,8 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private GameSetings _gameSetings;
     [SerializeField] private NodeSelector _nodeSelector;
     [SerializeField] private ChipMover _chipMover;
-    
+
+
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private GameObject _secondPanel;
 
@@ -21,10 +24,12 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private GameObject _losePanel;
 
     [SerializeField] private Vector3 _newChipPosition;
-   protected override void Configure(IContainerBuilder builder)
+
+    protected override void Configure(IContainerBuilder builder)
     {
         base.Configure(builder);
         RegisterGameStateMachine(builder);
+        // builder.RegisterComponent(_finishGameState);
 
         builder.RegisterEntryPoint<GameController>();
 
@@ -35,7 +40,7 @@ public class GameLifeTimeScope : LifetimeScope
         builder.Register<NodeModel>(Lifetime.Singleton).AsImplementedInterfaces();
         builder.Register<ChipModel>(Lifetime.Singleton).AsImplementedInterfaces();
         builder.Register<PathFinder>(Lifetime.Singleton);
-       // builder.Register<NodeSelector>(Lifetime.Singleton);
+
         builder.Register<GameOverController>(Lifetime.Singleton);
 
         builder.RegisterInstance(_chipView);
@@ -47,7 +52,7 @@ public class GameLifeTimeScope : LifetimeScope
         var panelPresenterFactory = new PanelPresenterFactory(_mainPanel, _secondPanel, _winPanel, _losePanel);
         builder.RegisterInstance(panelPresenterFactory);
 
-      //  var nodeSelector = new NodeSelector();
+
         builder.RegisterComponent(_nodeSelector);
         builder.RegisterComponent(_chipMover);
     }

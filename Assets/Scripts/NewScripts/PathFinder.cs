@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NewScripts.Node;
 using UnityEngine;
 
 public class PathFinder 

@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using NewScripts;
+using NewScripts.Node;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
+using UnityEditor.Experimental.GraphView;
 
 
-
-public class SelectFirstNodeState :  IState<GameContext>
+public class SelectFirstNodeState : IState<GameContext>
 {
     private readonly NodeSelector _nodeSelector;
     private readonly NodeView _nodeView;
@@ -13,7 +15,8 @@ public class SelectFirstNodeState :  IState<GameContext>
 
     private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
-    private int _amountMoves ;
+    private int _amountMoves;
+
 
     public SelectFirstNodeState(NodeSelector nodeSelector, NodeView nodeView, PathFinder pathFinder)
     {
@@ -21,6 +24,7 @@ public class SelectFirstNodeState :  IState<GameContext>
         _nodeView = nodeView;
         _pathFinder = pathFinder;
     }
+
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
         _gameContext = gameContext;
@@ -29,19 +33,18 @@ public class SelectFirstNodeState :  IState<GameContext>
 
     public void OnEnter()
     {
-         _nodeSelector.FirstNodeModelSelected += SaveDataType;
-        if (_amountMoves ==0)
+        _nodeSelector.FirstNodeModelSelected += SaveDataType;
+        if (_amountMoves == 0)
         {
             _nodeSelector.ChangeStateNodeSelector(1);
-           var nodeModelList = _nodeView.GetNodeModelList();
-           SaveDataType(nodeModelList);
+            var nodeModelList = _nodeView.GetNodeModelList();
+            SaveDataType(nodeModelList);
             _amountMoves++;
         }
         else
         {
             _nodeSelector.ChangeStateNodeSelector(1);
         }
-        
     }
 
     public void SaveDataType<T>(T dataType)
@@ -54,21 +57,47 @@ public class SelectFirstNodeState :  IState<GameContext>
             HighlightNodes();
         }
 
+        if (_gameContext.FinishPointLocation.Count == 0)
+        {
+            _gameContext.FinishPointLocation = _nodeView.FinishPointLocation;
+        }
+
         if (dataType is List<NodeModel> list)
         {
             _gameContext.NodeModelsList = list;
-        }
-
-        if (_gameContext.FinishPointLocation.Count ==0)
-        {
-            _gameContext.FinishPointLocation = _nodeView.FinishPointLocation;
-            
+            _gameContext.FinishIndexChips = new int [_gameContext.NodeModelsList.Count];
+            FillFinishList();
         }
     }
 
     public void OnExit()
     {
         _nodeSelector.FirstNodeModelSelected -= SaveDataType;
+    }
+
+    private void FillFinishList()
+    {
+        for (var i = 0; i < _gameContext.NodeModelsList.Count; i++)
+        {
+            if (_gameContext.NodeModelsList[i].ChipModel == null)
+            {
+                _gameContext.FinishIndexChips[i] = 0;
+            }
+            else
+            {
+                _gameContext.FinishIndexChips[i] = -1;
+            }
+        }
+
+        var number = 0;
+        for (int i = 0; i < _gameContext.FinishIndexChips.Length; i++)
+        {
+            if (_gameContext.FinishIndexChips[i] != 0)
+            {
+                _gameContext.FinishIndexChips[i] = _gameContext.FinishPointLocation[number];
+                number++;
+            }
+        }
     }
 
     private void HighlightNodes()
@@ -78,7 +107,7 @@ public class SelectFirstNodeState :  IState<GameContext>
             nodeModel.TurnOnOutline();
         }
 
-        if (_gameContext.HighlightingNodesList.Count>0)
+        if (_gameContext.HighlightingNodesList.Count > 0)
         {
             _stateMachine.Enter<SelectSecondNodeState>();
         }
@@ -87,7 +116,6 @@ public class SelectFirstNodeState :  IState<GameContext>
             _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
             _stateMachine.Enter<SelectFirstNodeState>();
         }
-       
     }
 
     private void ResetHighlightNodes()
