@@ -14,24 +14,28 @@ namespace NewScripts
         private readonly SelectSecondNodeState _selectSecondNodeState;
         private readonly FinishGameState _finishGameState;
         private readonly ChipMovementState _chipMovementState;
-
-        public GameController(StartLoadState startLoadState,
+       // private StateMachine<GameContext> _stateMachine;
+        public GameController(//StateMachine<GameContext> stateMachine,
+            StartLoadState startLoadState,
             SelectFirstNodeState selectFirstNodeState,
             SelectSecondNodeState selectSecondNodeState,
             FinishGameState finishGameState,
-            ChipMovementState chipMovementState)
+            ChipMovementState chipMovementState, IObjectResolver builder)
         {
+            //_stateMachine = stateMachine;
             _startLoadState = startLoadState;
             _selectFirstNodeState = selectFirstNodeState;
             _selectSecondNodeState = selectSecondNodeState;
             _finishGameState = finishGameState;
             _chipMovementState = chipMovementState;
+
+            
         }
 
         void IStartable.Start()
         {
 
-            var stateMachine = new StateMachine<GameContext>
+           var stateMachine = new StateMachine<GameContext>
             (
                 _startLoadState,
                 _selectFirstNodeState,
@@ -40,7 +44,8 @@ namespace NewScripts
                 _chipMovementState
             );
             stateMachine.Initialize(new GameContext());
-            stateMachine.Enter<StartLoadState>();
+           
+           stateMachine.Enter<StartLoadState>();
         }
         
     }

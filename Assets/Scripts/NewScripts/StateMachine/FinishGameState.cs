@@ -99,17 +99,7 @@ public class FinishGameState : IState<GameContext>
         }
     }
 
-    [UsedImplicitly]
-    public void LoadNextState()
-    {
-        _stateMachine.Enter<StartLoadState>();
-    }
-
-    [UsedImplicitly]
-    public void LoadSelectState()
-    {
-        _stateMachine.Enter<SelectFirstNodeState>();
-    }
+   
 
     public void OnExit()
     {
