@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace NewScripts.StateMachine
 {
 
-    public class StateMachine<TGameContext>  where TGameContext: class 
+    public class StateMachine<TGameContext>  where TGameContext:  class
     {
         private readonly Dictionary<Type, IState<TGameContext>> _states = new();
         private IState<TGameContext> _currentState;

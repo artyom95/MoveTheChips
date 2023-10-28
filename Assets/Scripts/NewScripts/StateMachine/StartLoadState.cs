@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace NewScripts.StateMachine
 {
-    public class StartLoadState : MonoBehaviour, IState<GameContext>
+    public class StartLoadState :  IState<GameContext>
     {
-        [SerializeField] private GameSetings _gameSettings;
-        [SerializeField] private GraphPresenter _graphPresenter;
+        private readonly GameSetings _gameSettings;
+        private  readonly GraphPresenter _graphPresenter;
 
         private StateMachine<GameContext> _stateMachine;
 
@@ -21,7 +21,11 @@ namespace NewScripts.StateMachine
 
         private int _index = -1;
 
-
+        public StartLoadState(GameSetings gameSetings, GraphPresenter graphPresenter)
+        {
+            _gameSettings = gameSetings;
+            _graphPresenter = graphPresenter;
+        }
         public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
         {
             _stateMachine = stateMachine;

@@ -1,11 +1,13 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
 namespace NewScripts.StateMachine
 {
-    public class ChipMovementState : MonoBehaviour, IState<GameContext>
+    public class ChipMovementState :  IState<GameContext>
     {
-        [SerializeField] private float _duration;
+        
+         private const float _duration = 3;
 
         private StateMachine<GameContext> _stateMachine;
         private GameContext _gameContext;

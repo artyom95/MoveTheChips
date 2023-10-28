@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathFinder : MonoBehaviour
+public class PathFinder 
 {
     private Vector2 _finishPosition;
     private Vector2 _startPosition;

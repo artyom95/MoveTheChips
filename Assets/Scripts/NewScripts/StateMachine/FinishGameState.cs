@@ -1,14 +1,18 @@
 using JetBrains.Annotations;
-using NewScripts;
 using NewScripts.StateMachine;
 using UnityEngine;
 
-public class FinishGameState : MonoBehaviour, IState<GameContext>
+public class FinishGameState :  IState<GameContext>
 {
-    [SerializeField] private GameOverController _gameOverController;
+    private readonly GameOverController _gameOverController;
+    
     private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
 
+    public FinishGameState(GameOverController gameOverController)
+    {
+        _gameOverController = gameOverController;
+    }
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
         _gameContext = gameContext;

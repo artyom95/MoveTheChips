@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameOverController : MonoBehaviour
+public class GameOverController 
 {
-   [SerializeField] private GameObject _winPanel;
-   [SerializeField] private GameObject _losePanel;
+    private GameObject _winPanel { get; }
+    private GameObject _losePanel { get; }
 
+    public GameOverController(PanelPresenterFactory panelPresenterFactory)
+  {
+      _winPanel = panelPresenterFactory.WinPanel;
+      _losePanel = panelPresenterFactory.LosePanel;
+  }
    public void ShowWinScreen()
    {
       _winPanel.gameObject.SetActive(true);

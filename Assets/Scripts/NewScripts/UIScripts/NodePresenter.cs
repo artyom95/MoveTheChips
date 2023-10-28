@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NewScripts.UIScripts
 {
-    public class NodePresenter : MonoBehaviour
+    public class NodePresenter 
     { 
         
         private readonly NodeView _nodeView;

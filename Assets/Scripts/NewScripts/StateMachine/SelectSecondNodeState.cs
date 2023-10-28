@@ -5,15 +5,21 @@ using NewScripts.StateMachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SelectSecondNodeState :  MonoBehaviour, IState <GameContext>
+public class SelectSecondNodeState :   IState <GameContext>
 {
-    [SerializeField] private NodeSelector _nodeSelector;
-    [SerializeField] private PathFinder _pathFinder;
-    [SerializeField] private SelectFirstNodeState _selectFirstNodeState;
+    private readonly NodeSelector _nodeSelector;
+    private readonly PathFinder _pathFinder;
+    private  readonly SelectFirstNodeState _selectFirstNodeState;
+    
     private StateMachine <GameContext> _stateMachine;
     private GameContext _gameContext;
-  
 
+    public SelectSecondNodeState(NodeSelector nodeSelector, PathFinder pathFinder, SelectFirstNodeState selectFirstNodeState)
+    {
+        _nodeSelector = nodeSelector;
+        _pathFinder = pathFinder;
+        _selectFirstNodeState = selectFirstNodeState;
+    }
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
         _gameContext = gameContext;

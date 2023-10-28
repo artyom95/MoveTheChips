@@ -1,6 +1,6 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace NewScripts
 {
@@ -15,12 +15,12 @@ namespace NewScripts
         private bool _isSecondNodeSelect = true;
         private ChipModel _chipWithColor;
 
-        private void Awake()
+        public void Start()
         {
             _layerMask = LayerMask.GetMask("ChipModel");
         }
 
-        private void Update()
+        public void Update()
         {
             SelectFirstNode();
 

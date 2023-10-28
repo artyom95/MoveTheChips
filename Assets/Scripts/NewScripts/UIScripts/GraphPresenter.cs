@@ -4,28 +4,32 @@ using UnityEngine;
 
 namespace NewScripts.UIScripts
 {
-    public class GraphPresenter : MonoBehaviour
+    public class GraphPresenter 
     {
         public event Action ShowBoardsEnded;
 
-        [SerializeField] private GameObject _mainPanel;
-        [SerializeField] private GameObject _secondPanel;
-        [SerializeField] private Vector3 _newLineRendererPosition;
-        [SerializeField] private Vector3 _newChipPosition;
+        private GameObject _mainPanel;
+        private GameObject _secondPanel;
+        private readonly Vector3 _newChipPosition;
 
         private GraphView _graphView;
         private ChipPresenter _chipPresenter;
         private NodePresenter _nodePresenter;
-      
+
         private readonly Vector3 _secondPanelScale = new(0.5f, 0.5f, 0.5f);
 
         public GraphPresenter(GraphView graphView,
             ChipPresenter chipPresenter,
-            NodePresenter nodePresenter)
+            NodePresenter nodePresenter,
+            PanelPresenterFactory panelPresenterFactory,
+             Vector3 newChipPosition)
         {
             _graphView = graphView;
             _chipPresenter = chipPresenter;
             _nodePresenter = nodePresenter;
+            _mainPanel = panelPresenterFactory.MainPanel;
+            _secondPanel = panelPresenterFactory.SecondPanel;
+             _newChipPosition = newChipPosition;
         }
 
         public void Initialize(List<Vector2> coordinatesPoints,
@@ -37,8 +41,8 @@ namespace NewScripts.UIScripts
             ShowMainBoard(coordinatesPoints, connectionsBetweenPointPairs, initialPointLocation, listColors,
                 finishPointLocation, _mainPanel);
             ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
-                listColors, _newLineRendererPosition);
-
+                listColors,_newChipPosition);
+            
             _secondPanel.transform.localPosition = _newChipPosition;
             _secondPanel.transform.localScale = _secondPanelScale;
             ShowBoardsEnded?.Invoke();

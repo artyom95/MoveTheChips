@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace NewScripts.UIScripts
 {
-    public class ChipPresenter
+    public class ChipPresenter 
     {
 
         private readonly ChipView _chipView;

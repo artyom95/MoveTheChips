@@ -4,7 +4,7 @@ using UnityEngine;
 using GameSettings = OLDScripts.GameSettings;
 
 
-public class GameController : MonoBehaviour
+public class GameControler : MonoBehaviour
     {
         [SerializeField] private DataDFSLoader _dataDfsLoader;
 

@@ -4,17 +4,25 @@ using NewScripts;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
 using UnityEngine;
+using VContainer.Unity;
 
-[Serializable]
-public class SelectFirstNodeState : MonoBehaviour, IState<GameContext>
+
+public class SelectFirstNodeState :  IState<GameContext>, ITickable
 {
-    [SerializeField] private NodeSelector _nodeSelector;
-    [SerializeField] private NodeView _nodeView;
-    [SerializeField] private PathFinder _pathFinder;
+    private readonly NodeSelector _nodeSelector;
+    private readonly NodeView _nodeView;
+    private readonly PathFinder _pathFinder;
+
     private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
     private int _amountMoves ;
 
+    public SelectFirstNodeState(NodeSelector nodeSelector, NodeView nodeView, PathFinder pathFinder)
+    {
+        _nodeSelector = nodeSelector;
+        _nodeView = nodeView;
+        _pathFinder = pathFinder;
+    }
     public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
     {
         _gameContext = gameContext;
@@ -26,7 +34,6 @@ public class SelectFirstNodeState : MonoBehaviour, IState<GameContext>
          _nodeSelector.FirstNodeModelSelected += SaveDataType;
         if (_amountMoves ==0)
         {
-            
             _nodeSelector.ChangeStateNodeSelector(1);
            var nodeModelList = _nodeView.GetNodeModelList();
            SaveDataType(nodeModelList);
@@ -91,5 +98,10 @@ public class SelectFirstNodeState : MonoBehaviour, IState<GameContext>
         {
             nodeModel.TurnOffOutline();
         }
+    }
+
+    public void Tick()
+    {
+        Debug.Log("Tick");
     }
 }
