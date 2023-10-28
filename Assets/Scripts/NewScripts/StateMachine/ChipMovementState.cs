@@ -1,18 +1,18 @@
-using System;
-using DG.Tweening;
-using UnityEngine;
 
 namespace NewScripts.StateMachine
 {
     public class ChipMovementState :  IState<GameContext>
     {
-        
-         private const float _duration = 3;
+        private  ChipMover _chipMover { get; }
 
+       
         private StateMachine<GameContext> _stateMachine;
         private GameContext _gameContext;
 
-
+        public ChipMovementState(ChipMover chipMover)
+        {
+            _chipMover = chipMover;
+        }
         public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
         {
             _gameContext = gameContext;
@@ -29,14 +29,17 @@ namespace NewScripts.StateMachine
             }
 
             _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
-            var sequence = DOTween.Sequence();
+          /*  var sequence = DOTween.Sequence();
 
             sequence.Join(chip.transform.DOPath(path, _duration))
                 .AppendCallback(() => _gameContext.StartNodeModel.ResetChipModel())
                 .AppendCallback(() => _gameContext.FinishNodeModel.SetChipModel(chip))
                 .AppendCallback(() => _stateMachine.Enter<FinishGameState>());
+        */
+          
+          _chipMover.StartMove(path, chip, _gameContext,_stateMachine);
         }
-
+        
         public void OnExit()
         {
         }

@@ -61,6 +61,5 @@ public class SelectSecondNodeState :   IState <GameContext>
     {
         _nodeSelector.SecondNodeModelSelected -= SaveFinishNodeModel;
         _nodeSelector.FirstNodeModelSelected -= _selectFirstNodeState.SaveDataType;
-
     }
 }

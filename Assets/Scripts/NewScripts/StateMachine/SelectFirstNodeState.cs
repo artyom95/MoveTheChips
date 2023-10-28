@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
 using NewScripts;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
-using UnityEngine;
-using VContainer.Unity;
 
 
-public class SelectFirstNodeState :  IState<GameContext>, ITickable
+
+public class SelectFirstNodeState :  IState<GameContext>
 {
     private readonly NodeSelector _nodeSelector;
     private readonly NodeView _nodeView;
@@ -98,10 +96,5 @@ public class SelectFirstNodeState :  IState<GameContext>, ITickable
         {
             nodeModel.TurnOffOutline();
         }
-    }
-
-    public void Tick()
-    {
-        Debug.Log("Tick");
     }
 }

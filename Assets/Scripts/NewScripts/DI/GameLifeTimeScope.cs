@@ -11,7 +11,9 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private GraphView _graphView;
     [SerializeField] private NodeView _nodeView;
     [SerializeField] private GameSetings _gameSetings;
-
+    [SerializeField] private NodeSelector _nodeSelector;
+    [SerializeField] private ChipMover _chipMover;
+    
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private GameObject _secondPanel;
 
@@ -19,8 +21,7 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private GameObject _losePanel;
 
     [SerializeField] private Vector3 _newChipPosition;
-    [SerializeField] private NodeSelector _nodeSelector;
-    protected override void Configure(IContainerBuilder builder)
+   protected override void Configure(IContainerBuilder builder)
     {
         base.Configure(builder);
         RegisterGameStateMachine(builder);
@@ -48,6 +49,7 @@ public class GameLifeTimeScope : LifetimeScope
 
       //  var nodeSelector = new NodeSelector();
         builder.RegisterComponent(_nodeSelector);
+        builder.RegisterComponent(_chipMover);
     }
 
     private static void RegisterGameStateMachine(IContainerBuilder builder)

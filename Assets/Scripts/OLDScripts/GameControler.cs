@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NewScripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 using GameSettings = OLDScripts.GameSettings;
 
 
@@ -10,7 +11,7 @@ public class GameControler : MonoBehaviour
 
         [SerializeField] private GameSettings _gameSettings;
         [SerializeField] private ChipSelector _chipSelector;
-        [SerializeField] private ChipMover _chipMover;
+        [FormerlySerializedAs("_chipMover")] [SerializeField] private ChipMoover _chipMoover;
         [SerializeField] private ScreenDisplayLoader _screenDisplayLoader;
         private List<Chip> _listChips = new List<Chip>();
 
@@ -31,19 +32,19 @@ public class GameControler : MonoBehaviour
             SubscribeMethods();
         
             _chipsArray = _dataDfsLoader.GetChipsArray();
-            _chipMover.Initialize(_chipsArray, _coordinatesPoints);
+            _chipMoover.Initialize(_chipsArray, _coordinatesPoints);
 
         }
 
         private void SubscribeMethods()
         {
             _chipSelector.ChipSelected += _dataDfsLoader.FindMovingPlace;
-            _chipSelector.ChipSelected += _chipMover.GetMovementObject;
-            _chipSelector.PlaceForChipSelected += _chipMover.GetDestinationPlace;
+            _chipSelector.ChipSelected += _chipMoover.GetMovementObject;
+            _chipSelector.PlaceForChipSelected += _chipMoover.GetDestinationPlace;
             _chipSelector.PlaceSelected += _screenDisplayLoader.TurnOffChipsForClick;
             _dataDfsLoader.MovingPlaceFound += _screenDisplayLoader.ShowFoundChipForClick;
             _dataDfsLoader.MovingPlaceNotFound += _chipSelector.ResetChip;
-            _chipMover.MoveCompleted += _chipSelector.ChangeStateSelector;
+            _chipMoover.MoveCompleted += _chipSelector.ChangeStateSelector;
 
         }
         // Update is called once per frame
@@ -53,13 +54,13 @@ public class GameControler : MonoBehaviour
             _dataDfsLoader.MovingPlaceFound -= _screenDisplayLoader.ShowFoundChipForClick;
             _dataDfsLoader.MovingPlaceNotFound -= _chipSelector.ResetChip;
 
-            _chipSelector.ChipSelected -= _chipMover.GetMovementObject;
-            _chipSelector.PlaceForChipSelected -= _chipMover.GetDestinationPlace;
+            _chipSelector.ChipSelected -= _chipMoover.GetMovementObject;
+            _chipSelector.PlaceForChipSelected -= _chipMoover.GetDestinationPlace;
         
             _chipSelector.PlaceSelected -= _screenDisplayLoader.TurnOffChipsForClick;
 
         
-            _chipMover.MoveCompleted -= _chipSelector.ChangeStateSelector;
+            _chipMoover.MoveCompleted -= _chipSelector.ChangeStateSelector;
       
         }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
-public class ChipMover : MonoBehaviour
+public class ChipMoover : MonoBehaviour
 {
     public event Action MoveCompleted;
 
