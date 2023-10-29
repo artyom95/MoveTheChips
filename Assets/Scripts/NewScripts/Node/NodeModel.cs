@@ -11,7 +11,7 @@ namespace NewScripts.Node
         public int ID { get; private set; }
         public Vector3 Position { get; private set; }
 
-        [SerializeField] private global::OutlineController _outlineController;
+        [SerializeField] private OutlineController _outlineController;
 
         public void SetID(int id)
         {

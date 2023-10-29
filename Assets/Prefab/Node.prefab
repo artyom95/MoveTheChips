@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 6588619978042608250}
   - component: {fileID: 3669718627663464760}
   - component: {fileID: 3491716589336051514}
-  - component: {fileID: 175498562439244204}
   - component: {fileID: 1018938868710340572}
+  - component: {fileID: 9069901296962796516}
   m_Layer: 3
   m_Name: Node
   m_TagString: Untagged
@@ -144,19 +144,6 @@ MonoBehaviour:
     - {x: 0.57735026, y: 0.57735026, z: -0.57735026}
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
---- !u!114 &175498562439244204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194995492628906853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 328278005416592409a4445612ac5018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _highlightIntensity: 50
 --- !u!114 &1018938868710340572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,4 +156,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a76935ebd0896bb4db2bfeeb96ec9307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineController: {fileID: 175498562439244204}
+  _outlineController: {fileID: 9069901296962796516}
+--- !u!114 &9069901296962796516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194995492628906853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fae97044d0265c45ab2f2ab4ab418d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _highlightIntensity: 50
