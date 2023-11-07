@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NewScripts
 {
     [Serializable]
-    public class GameSetings : MonoBehaviour
+    public class GameSettings : MonoBehaviour
 
     {
         [field: SerializeField] public List<ScriptableSettings> ScriptableSettings { get; private set; }

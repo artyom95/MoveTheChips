@@ -12,7 +12,7 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private ChipView _chipView;
     [SerializeField] private GraphView _graphView;
     [SerializeField] private NodeView _nodeView;
-    [SerializeField] private GameSetings _gameSetings;
+    [SerializeField] private GameSettings _gameSetings;
     [SerializeField] private NodeSelector _nodeSelector;
     [SerializeField] private ChipMover _chipMover;
 

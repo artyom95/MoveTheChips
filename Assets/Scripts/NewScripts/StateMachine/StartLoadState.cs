@@ -6,25 +6,20 @@ namespace NewScripts.StateMachine
 {
     public class StartLoadState : IState<GameContext>
     {
-        private readonly GameSetings _gameSettings;
+        private readonly GameSettings _gameSettings;
         private readonly GraphPresenter _graphPresenter;
 
         private StateMachine<GameContext> _stateMachine;
         private GameContext _gameContext;
 
-        private List<Vector2> _coordinatesPoints = new();
-        private List<Color> _listColors = new();
-        private List<int> _initialPointLocation = new();
-        private List<Vector2> _connectionsBetweenPointsPairs = new();
-        private int[,] _chipsArray;
-        private List<int> _finishPointLocation = new();
-
+         private int[,] _chipsArray;
+       
 
         private int _index = -1;
 
-        public StartLoadState(GameSetings gameSetings, GraphPresenter graphPresenter)
+        public StartLoadState(GameSettings gameSettings, GraphPresenter graphPresenter)
         {
-            _gameSettings = gameSetings;
+            _gameSettings = gameSettings;
             _graphPresenter = graphPresenter;
         }
 
@@ -37,13 +32,19 @@ namespace NewScripts.StateMachine
         public void OnEnter()
         {
             _index++;
-            FillFields();
+             var coordinatesPoints = _gameSettings.ScriptableSettings[_index].CoordinatesPoints;
+            var listColors = _gameSettings.ScriptableSettings[_index].ColorsChips;
+            var initialPointLocation = _gameSettings.ScriptableSettings[_index].InitialPointLocation;
+            var finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
+            var connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
+
+            
             _graphPresenter.ShowBoardsEnded += TransitionAnotherState;
-            _graphPresenter.Initialize(_coordinatesPoints,
-                _connectionsBetweenPointsPairs,
-                _initialPointLocation,
-                _listColors,
-                _finishPointLocation);
+            _graphPresenter.Initialize(coordinatesPoints,
+                connectionsBetweenPointsPairs,
+                initialPointLocation,
+                listColors,
+                finishPointLocation);
         }
 
         public void OnExit()
@@ -55,14 +56,6 @@ namespace NewScripts.StateMachine
         {
             _stateMachine.Enter<SelectFirstNodeState>();
         }
-
-        private void FillFields()
-        {
-            _coordinatesPoints = _gameSettings.ScriptableSettings[_index].CoordinatesPoints;
-            _listColors = _gameSettings.ScriptableSettings[_index].ColorsChips;
-            _initialPointLocation = _gameSettings.ScriptableSettings[_index].InitialPointLocation;
-            _finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
-            _connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
-        }
+        
     }
 }
