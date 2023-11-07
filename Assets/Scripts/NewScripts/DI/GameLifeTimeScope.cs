@@ -24,7 +24,7 @@ public class GameLifeTimeScope : LifetimeScope
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private GameObject _losePanel;
 
-    [SerializeField] private Vector3 _newChipPosition;
+   
 
     protected override void Configure(IContainerBuilder builder)
     {
@@ -47,7 +47,7 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterInstance(_graphView);
         builder.RegisterInstance(_nodeView);
         builder.RegisterInstance(_gameSetings);
-        builder.RegisterInstance(_newChipPosition);
+      
 
         var panelPresenterFactory = new PanelPresenterFactory(_mainPanel, _secondPanel, _winPanel, _losePanel);
         builder.RegisterInstance(panelPresenterFactory);

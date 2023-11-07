@@ -10,26 +10,26 @@ namespace NewScripts.UIScripts
 
         private GameObject _mainPanel;
         private GameObject _secondPanel;
-        private readonly Vector3 _newChipPosition;
+
 
         private GraphView _graphView;
         private ChipPresenter _chipPresenter;
         private NodePresenter _nodePresenter;
 
-        private readonly Vector3 _secondPanelScale = new(0.5f, 0.5f, 0.5f);
+        private readonly Vector3 _secondPanelScale = new(0.25f, 0.25f, 0.25f);
+        private readonly Vector3 _position = new(378, -53, 0);
+        private readonly Vector3 _newChipPosition = new(480, 0, 0);
 
         public GraphPresenter(GraphView graphView,
             ChipPresenter chipPresenter,
             NodePresenter nodePresenter,
-            PanelPresenterFactory panelPresenterFactory,
-            Vector3 newChipPosition)
+            PanelPresenterFactory panelPresenterFactory)
         {
             _graphView = graphView;
             _chipPresenter = chipPresenter;
             _nodePresenter = nodePresenter;
             _mainPanel = panelPresenterFactory.MainPanel;
             _secondPanel = panelPresenterFactory.SecondPanel;
-            _newChipPosition = newChipPosition;
         }
 
         public void Initialize(List<Vector2> coordinatesPoints,
@@ -43,11 +43,11 @@ namespace NewScripts.UIScripts
             ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
                 listColors, _newChipPosition);
 
-             _secondPanel.transform.localPosition = _newChipPosition;
-          
-         // _secondPanel.transform.localScale = _secondPanelScale;
-         
-         ShowBoardsEnded?.Invoke();
+            _secondPanel.transform.localPosition = _position;
+
+            _secondPanel.transform.localScale = _secondPanelScale;
+
+            ShowBoardsEnded?.Invoke();
         }
 
         private void ShowMainBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
