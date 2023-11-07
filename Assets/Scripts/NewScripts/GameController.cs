@@ -1,5 +1,4 @@
 using NewScripts.StateMachine;
-using VContainer;
 using VContainer.Unity;
 
 namespace NewScripts
@@ -12,17 +11,14 @@ namespace NewScripts
         private readonly FinishGameState _finishGameState;
 
         private readonly ChipMovementState _chipMovementState;
-
-        // private StateMachine<GameContext> _stateMachine;
-        public GameController( //StateMachine<GameContext> stateMachine,
-            StartLoadState startLoadState,
+        
+        public GameController(StartLoadState startLoadState,
             SelectFirstNodeState selectFirstNodeState,
             SelectSecondNodeState selectSecondNodeState,
             FinishGameState finishGameState,
-            ChipMovementState chipMovementState, IObjectResolver builder)
+            ChipMovementState chipMovementState)
         {
-            //_stateMachine = stateMachine;
-            _startLoadState = startLoadState;
+           _startLoadState = startLoadState;
             _selectFirstNodeState = selectFirstNodeState;
             _selectSecondNodeState = selectSecondNodeState;
             _finishGameState = finishGameState;

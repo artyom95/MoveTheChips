@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using NewScripts.Chip;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace NewScripts.UIScripts
 {
@@ -15,11 +13,11 @@ namespace NewScripts.UIScripts
             _chipView = chipView;
         }
 
-        public List<ChipModel> DisplayChips(List<Vector2> coordinatePoints,
+        public List<ChipModelSettings> DisplayChips(List<Vector2> coordinatePoints,
             List<int> initialPointLocation,
             List<Color> listColors, GameObject mainPanel)
         {
-            var list = _chipView.DisplayChips(coordinatePoints, initialPointLocation, listColors, mainPanel);
+            var list = _chipView.ShowChips(coordinatePoints, initialPointLocation, listColors, mainPanel);
             return list;
         }
     }

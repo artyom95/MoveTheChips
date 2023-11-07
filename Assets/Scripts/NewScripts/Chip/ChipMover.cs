@@ -10,7 +10,7 @@ namespace NewScripts.Chip
         [SerializeField] private float _duration;
 
         public void StartMove(IReadOnlyList<Vector3> path,
-            ChipModel chip,
+            ChipModelSettings chip,
             GameContext gameContext,
             StateMachine<GameContext> stateMachine)
         {
@@ -25,7 +25,7 @@ namespace NewScripts.Chip
         }
 
         private IEnumerator MoveAlongPath(IReadOnlyList<Vector3> path,
-            ChipModel chip,
+            ChipModelSettings chip,
             GameContext gameContext,
             StateMachine<GameContext> stateMachine)
         {

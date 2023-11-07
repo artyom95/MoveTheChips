@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using NewScripts.Node;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
@@ -12,13 +11,11 @@ public class SelectFirstNodeState : IState<GameContext>
 
     private StateMachine<GameContext> _stateMachine;
     private GameContext _gameContext;
-    private int _amountMoves;
 
 
-    public SelectFirstNodeState(NodeSelector nodeSelector, NodeView nodeView, PathFinder pathFinder)
+    public SelectFirstNodeState(NodeSelector nodeSelector, PathFinder pathFinder)
     {
         _nodeSelector = nodeSelector;
-        _nodeView = nodeView;
         _pathFinder = pathFinder;
     }
 
@@ -31,17 +28,8 @@ public class SelectFirstNodeState : IState<GameContext>
     public void OnEnter()
     {
         _nodeSelector.FirstNodeModelSelected += SaveDataType;
-        if (_amountMoves == 0)
-        {
-            _nodeSelector.ChangeStateNodeSelector(1);
-            var nodeModelList = _nodeView.GetNodeModelList();
-            SaveDataType(nodeModelList);
-            _amountMoves++;
-        }
-        else
-        {
-            _nodeSelector.ChangeStateNodeSelector(1);
-        }
+
+        _nodeSelector.ChangeStateNodeSelector(typeStateSelector: 1);
     }
 
     public void SaveDataType<T>(T dataType)
@@ -53,48 +41,11 @@ public class SelectFirstNodeState : IState<GameContext>
             _gameContext.HighlightingNodesList = _pathFinder.FindHighlightingPath(_gameContext.StartNodeModel);
             HighlightNodes();
         }
-
-        if (_gameContext.FinishPointLocation.Count == 0)
-        {
-            _gameContext.FinishPointLocation = _nodeView.FinishPointLocation;
-        }
-
-        if (dataType is List<NodeModel> list)
-        {
-            _gameContext.NodeModelsList = list;
-            _gameContext.FinishIndexChips = new int [_gameContext.NodeModelsList.Count];
-            FillFinishList();
-        }
     }
 
     public void OnExit()
     {
         _nodeSelector.FirstNodeModelSelected -= SaveDataType;
-    }
-
-    private void FillFinishList()
-    {
-        for (var i = 0; i < _gameContext.NodeModelsList.Count; i++)
-        {
-            if (_gameContext.NodeModelsList[i].ChipModel == null)
-            {
-                _gameContext.FinishIndexChips[i] = 0;
-            }
-            else
-            {
-                _gameContext.FinishIndexChips[i] = -1;
-            }
-        }
-
-        var number = 0;
-        for (int i = 0; i < _gameContext.FinishIndexChips.Length; i++)
-        {
-            if (_gameContext.FinishIndexChips[i] != 0)
-            {
-                _gameContext.FinishIndexChips[i] = _gameContext.FinishPointLocation[number];
-                number++;
-            }
-        }
     }
 
     private void HighlightNodes()

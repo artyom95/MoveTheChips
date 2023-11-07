@@ -1,8 +1,6 @@
 using System;
 using NewScripts.Chip;
-using NewScripts.Node;
 using UnityEngine;
-using VContainer.Unity;
 
 namespace NewScripts.Node
 {
@@ -13,9 +11,9 @@ namespace NewScripts.Node
         public event Action<NodeModel> SecondNodeModelSelected;
 
         private int _layerMask;
-        private bool _isFirstNodeSelect = true;
-        private bool _isSecondNodeSelect = true;
-        private ChipModel _chipWithColor;
+        private bool _isCurrentNodeSelect = true;
+        private bool _isTargetNodeSelect = true;
+        private ChipModelSettings _chipWithColor;
 
         public void Start()
         {
@@ -24,68 +22,18 @@ namespace NewScripts.Node
 
         public void Update()
         {
-            SelectFirstNode();
-
-            SelectSecondNode();
+            SelectNode();
         }
 
-        public void ChangeStateNodeSelector(int countStateSelector)
+        public void ChangeStateNodeSelector(int typeStateSelector)
         {
-            if (countStateSelector == 1)
+            if (typeStateSelector == 1)
             {
-                _isFirstNodeSelect = false;
+                _isCurrentNodeSelect = false;
             }
-            else if (countStateSelector == 2)
+            else if (typeStateSelector == 2)
             {
-                _isSecondNodeSelect = false;
-            }
-        }
-
-        private void SelectSecondNode()
-        {
-            if (Input.GetMouseButtonDown(0) && !_isSecondNodeSelect)
-            {
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, ~_layerMask))
-                {
-                    var nodeModel = hitInfo.collider.GetComponent<NodeModel>();
-                    var outline = nodeModel.GetComponent<Outline>();
-                    if (nodeModel != null && outline.OutlineWidth > 0)
-                    {
-                        _isFirstNodeSelect = true;
-                        _isSecondNodeSelect = true;
-                        SecondNodeModelSelected?.Invoke(nodeModel);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-
-        private void SelectFirstNode()
-        {
-            if (Input.GetMouseButtonDown(0) && !_isFirstNodeSelect)
-            {
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, ~_layerMask))
-                {
-                    var nodeModel = hitInfo.collider.GetComponent<NodeModel>();
-
-
-                    if (nodeModel != null && nodeModel.ChipModel != null)
-                    {
-                        CheckSelectionAnotherNodeModel();
-                        _chipWithColor = nodeModel.ChipModel;
-                        nodeModel.ChipModel.TurnOnOutline();
-                        FirstNodeModelSelected?.Invoke(nodeModel);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
+                _isTargetNodeSelect = false;
             }
         }
 
@@ -94,6 +42,48 @@ namespace NewScripts.Node
             if (_chipWithColor != null)
             {
                 _chipWithColor.TurnOffOutline();
+            }
+        }
+
+        private void SelectNode()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, ~_layerMask))
+                {
+                    var nodeModel = hitInfo.collider.GetComponent<NodeModel>();
+                    SelectMainNode(nodeModel);
+                    SelectTargetNode(nodeModel);
+                }
+            }
+        }
+
+        private void SelectMainNode(NodeModel nodeModel)
+        {
+            if (!_isCurrentNodeSelect)
+            {
+                if (nodeModel != null && nodeModel.ChipModel != null)
+                {
+                    CheckSelectionAnotherNodeModel();
+                    _chipWithColor = nodeModel.ChipModel;
+                    nodeModel.ChipModel.TurnOnOutline();
+                    FirstNodeModelSelected?.Invoke(nodeModel);
+                }
+            }
+        }
+
+        private void SelectTargetNode(NodeModel nodeModel)
+        {
+            if (!_isTargetNodeSelect)
+            {
+                var outline = nodeModel.GetComponent<Outline>();
+                if (nodeModel != null && outline.OutlineWidth > 0)
+                {
+                    _isCurrentNodeSelect = true;
+                    _isTargetNodeSelect = true;
+                    SecondNodeModelSelected?.Invoke(nodeModel);
+                }
             }
         }
     }

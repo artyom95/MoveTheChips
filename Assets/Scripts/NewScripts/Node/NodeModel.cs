@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace NewScripts.Node
 {
-    public class NodeModel : MonoBehaviour, ILuminable
+    public class NodeModel : MonoBehaviour, IHighlightable
     {
         public List<NodeModel> Neighbours { get; } = new();
-        public ChipModel ChipModel { get; private set; }
+        public ChipModelSettings ChipModel { get; private set; }
         public int ID { get; private set; }
         public Vector3 Position { get; private set; }
 
@@ -23,7 +23,7 @@ namespace NewScripts.Node
             Neighbours.Add(nodeModel);
         }
 
-        public void SetChipModel(ChipModel chipModel)
+        public void SetChipModel(ChipModelSettings chipModel)
         {
             ChipModel = chipModel;
         }

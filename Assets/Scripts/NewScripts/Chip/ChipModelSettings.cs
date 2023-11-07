@@ -2,8 +2,9 @@ using UnityEngine;
 
 namespace NewScripts.Chip
 {
-    public class ChipSettings : MonoBehaviour, ILuminable
+    public class ChipModelSettings : MonoBehaviour, IHighlightable
     {
+        public Vector3 Position { get; private set; }
         public int ID { get; private set; }
         [SerializeField] private OutlineController _outlineController;
         [SerializeField] private MeshRenderer _meshRenderer;
@@ -12,7 +13,6 @@ namespace NewScripts.Chip
         {
             ID = id;
         }
-
 
         public void TurnOnOutline()
         {
@@ -27,6 +27,12 @@ namespace NewScripts.Chip
         public void SetColor(Color color)
         {
             _meshRenderer.material.color = color;
+        }
+
+
+        public void SetPosition(Vector3 position)
+        {
+            Position = position;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace NewScripts.UIScripts
         {
             return _nodeModelsList;
         }
-        public void DisplayNodes(List<ChipModel> listChips,
+        public void ShowNodes(List<ChipModelSettings> listChips,
             List<Vector2> coordinatesPoints,
             List<int> initialPointLocation,
             List<Vector2> connectionsBetweenPointPairs,
@@ -51,7 +51,7 @@ namespace NewScripts.UIScripts
             }
         }
 
-        private void FillChipModel(List<ChipModel> listChips, List<int> initialPointLocation)
+        private void FillChipModel(List<ChipModelSettings> listChips, List<int> initialPointLocation)
         {
             for (var i = 0; i < initialPointLocation.Count; i++)
             {

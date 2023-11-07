@@ -1,4 +1,4 @@
-public interface ILuminable
+public interface IHighlightable
 {
     public void TurnOnOutline();
 

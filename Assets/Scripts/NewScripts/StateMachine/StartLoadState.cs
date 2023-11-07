@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using NewScripts.UIScripts;
-using UnityEngine;
+
 
 namespace NewScripts.StateMachine
 {
@@ -11,14 +10,13 @@ namespace NewScripts.StateMachine
 
         private StateMachine<GameContext> _stateMachine;
         private GameContext _gameContext;
-
-         private int[,] _chipsArray;
-       
-
+        
         private int _index = -1;
+        private NodePresenter _nodePresenter;
 
-        public StartLoadState(GameSettings gameSettings, GraphPresenter graphPresenter)
+        public StartLoadState(GameSettings gameSettings, GraphPresenter graphPresenter, NodePresenter nodePresenter)
         {
+            _nodePresenter = nodePresenter;
             _gameSettings = gameSettings;
             _graphPresenter = graphPresenter;
         }
@@ -45,6 +43,10 @@ namespace NewScripts.StateMachine
                 initialPointLocation,
                 listColors,
                 finishPointLocation);
+            
+            _gameContext.FinishPointLocation = _nodePresenter.GetFinishPointLocation();
+            var nodeModelList = _nodePresenter.GetNodeModelList();
+            _gameContext.NodeModelsList = nodeModelList;
         }
 
         public void OnExit()

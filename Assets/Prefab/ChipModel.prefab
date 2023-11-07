@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3491716589336051514}
   - component: {fileID: 5980730654310477692}
   - component: {fileID: -6976728874851407444}
-  - component: {fileID: 6131893047078635228}
   m_Layer: 6
   m_Name: ChipModel
   m_TagString: Untagged
@@ -142,20 +141,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2f8c8575415b78448572f4b3f7ea1da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _outlineController: {fileID: 5980730654310477692}
-  _meshRenderer: {fileID: 6588619978042608250}
---- !u!114 &6131893047078635228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194995492628906853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded5eb5bf38c48f468d839a21019ec55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineController: {fileID: 5980730654310477692}

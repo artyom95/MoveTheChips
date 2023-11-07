@@ -32,7 +32,7 @@ namespace NewScripts.StateMachine
 
             _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
             _chipMover.StartMove(path, chip, _gameContext, _stateMachine);
-            _gameContext.Chip = chip;
+            _gameContext.CurrentChip = chip;
         }
 
         public void OnExit()

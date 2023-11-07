@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using NewScripts.GameObjectsPresenter;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameOverController
 {
     private GameObject _winPanel { get; }
     private GameObject _losePanel { get; }
 
-    public GameOverController(PanelPresenterFactory panelPresenterFactory)
+    public GameOverController(PanelPresenter panelPresenterFactory)
     {
         _winPanel = panelPresenterFactory.WinPanel;
         _losePanel = panelPresenterFactory.LosePanel;

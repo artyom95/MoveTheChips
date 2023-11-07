@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NewScripts.GameObjectsPresenter;
 using UnityEngine;
 
 namespace NewScripts.UIScripts
@@ -16,6 +17,9 @@ namespace NewScripts.UIScripts
         private ChipPresenter _chipPresenter;
         private NodePresenter _nodePresenter;
 
+        /// <summary>
+        /// It must work another way
+        /// </summary>
         private readonly Vector3 _secondPanelScale = new(0.25f, 0.25f, 0.25f);
         private readonly Vector3 _position = new(378, -53, 0);
         private readonly Vector3 _newChipPosition = new(480, 0, 0);
@@ -23,7 +27,7 @@ namespace NewScripts.UIScripts
         public GraphPresenter(GraphView graphView,
             ChipPresenter chipPresenter,
             NodePresenter nodePresenter,
-            PanelPresenterFactory panelPresenterFactory)
+            PanelPresenter panelPresenterFactory)
         {
             _graphView = graphView;
             _chipPresenter = chipPresenter;

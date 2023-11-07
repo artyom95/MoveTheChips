@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using NewScripts;
 using NewScripts.Node;
 using NewScripts.StateMachine;
-using Unity.VisualScripting;
-using UnityEngine;
+
 
 public class SelectSecondNodeState : IState<GameContext>
 {
@@ -33,7 +29,7 @@ public class SelectSecondNodeState : IState<GameContext>
     public void OnEnter()
     {
         _nodeSelector.FirstNodeModelSelected += _selectFirstNodeState.SaveDataType;
-        _nodeSelector.ChangeStateNodeSelector(2);
+        _nodeSelector.ChangeStateNodeSelector(typeStateSelector:2);
         _nodeSelector.SecondNodeModelSelected += SaveFinishNodeModel;
     }
 

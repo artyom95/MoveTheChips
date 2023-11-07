@@ -7,10 +7,10 @@ namespace NewScripts.UIScripts
 {
     public class ChipView : MonoBehaviour
     {
-        [SerializeField] private ChipModel _chipModel;
-        private List<ChipModel> _chipsList = new();
+        [SerializeField] private ChipModelSettings _chipModel;
+        private List<ChipModelSettings> _chipsList = new();
 
-        public List<ChipModel> DisplayChips(List<Vector2> coordinatePoints,
+        public List<ChipModelSettings> ShowChips(List<Vector2> coordinatePoints,
             List<int> initialPointLocation,
             List<Color> colors, GameObject mainPanel)
         {
@@ -18,6 +18,10 @@ namespace NewScripts.UIScripts
             var sequenceNumberCycle = 0;
             foreach (var initialPoint in initialPointLocation)
             {
+                if (initialPoint ==0)
+                {
+                    continue;
+                }
                 var xPosition = coordinatePoints[initialPoint - 1].x;
                 var yPosition = -coordinatePoints[initialPoint - 1].y;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PathFinder
 {
     private Vector2 _finishPosition;
-    private Vector2 _startPosition;
+
 
     public List<NodeModel> FindHighlightingPath(NodeModel currentNodeModel)
     {
@@ -33,8 +33,6 @@ public class PathFinder
     public List<Vector3> FindMovingPath(List<NodeModel> nodeModelsList, NodeModel startNodeModel,
         NodeModel finishNodeModel)
     {
-        _startPosition = new Vector2(startNodeModel.Position.x, startNodeModel.Position.y);
-
         int n = nodeModelsList.Count / 3;
         int m = n;
         var nodeArray = CreateNodeArray(n, m, nodeModelsList, finishNodeModel, startNodeModel);
