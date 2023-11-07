@@ -43,9 +43,11 @@ namespace NewScripts.UIScripts
             ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
                 listColors, _newChipPosition);
 
-            _secondPanel.transform.localPosition = _newChipPosition;
-            _secondPanel.transform.localScale = _secondPanelScale;
-            ShowBoardsEnded?.Invoke();
+             _secondPanel.transform.localPosition = _newChipPosition;
+          
+         // _secondPanel.transform.localScale = _secondPanelScale;
+         
+         ShowBoardsEnded?.Invoke();
         }
 
         private void ShowMainBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,

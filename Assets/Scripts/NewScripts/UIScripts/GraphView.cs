@@ -6,11 +6,11 @@ namespace NewScripts.UIScripts
     public class GraphView : MonoBehaviour
     {
         [SerializeField] private Material _materialLineRenderer;
-        private const int _scalePosition = 2;
+        private const int _scale = 2;
         private const int _lineRendererWidth = 10;
 
         public void DisplayGraphs(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-            GameObject mainPanel, Vector3 newPosition = default)
+            GameObject panel, Vector3 newPosition = default)
         {
             var numberLine = 0;
             foreach (var connection in connectionsBetweenPointPairs)
@@ -36,11 +36,13 @@ namespace NewScripts.UIScripts
                 line.material = _materialLineRenderer;
                 if (newPosition != Vector3.zero)
                 {
-                    firstPosition /= _scalePosition;
-                    secondPosition /= _scalePosition;
+                    firstPosition /= _scale;
+                    secondPosition /= _scale;
 
-                    line.startWidth = _lineRendererWidth / 2;
-                    line.endWidth = _lineRendererWidth / 2;
+                    line.startWidth = _lineRendererWidth / _scale;
+                    line.endWidth = _lineRendererWidth / _scale;
+                   
+                   
                 }
 
                 line.SetPosition(index, firstPosition);
@@ -48,12 +50,12 @@ namespace NewScripts.UIScripts
                 line.SetPosition(index, secondPosition);
 
 
-                if (newPosition != Vector3.zero)
+               if (newPosition != Vector3.zero)
                 {
                     SetLineRendererNewPosition(line, newPosition);
                 }
 
-                gameObject.transform.SetParent(mainPanel.transform);
+                gameObject.transform.SetParent(panel.transform);
             }
         }
 
@@ -67,5 +69,7 @@ namespace NewScripts.UIScripts
                 line.SetPosition(i, globalPosition);
             }
         }
+        
+        
     }
 }
