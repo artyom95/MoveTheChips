@@ -162,6 +162,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "jp.hadashikick.unitaskpubsub": {
+      "version": "https://github.com/hadashiA/UniTaskPubSub.git?path=Assets/UniTaskPubSub#0.10.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "cde09c607cb29e33e80c8fa04a12afe559455b97"
+    },
     "jp.hadashikick.vcontainer": {
       "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.13.2",
       "depth": 0,
