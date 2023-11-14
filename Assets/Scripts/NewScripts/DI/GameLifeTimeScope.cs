@@ -52,7 +52,6 @@ public class GameLifeTimeScope : LifetimeScope
         
         builder.RegisterComponent(_nodeSelector);
         builder.RegisterComponent(_chipMover);
-        
         builder.RegisterEntryPoint<GameController>();
 
     }

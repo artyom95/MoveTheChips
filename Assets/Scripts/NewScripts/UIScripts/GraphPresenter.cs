@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using NewScripts.GameObjectsPresenter;
+using NewScripts.UIScripts;
 using UnityEngine;
 
-namespace NewScripts.UIScripts
-{
-    public class GraphPresenter
+
+     public class GraphPresenter
     {
         public event Action ShowBoardsEnded;
 
@@ -71,4 +72,4 @@ namespace NewScripts.UIScripts
             _chipPresenter.DisplayChips(coordinatesPoints, finishPointLocation, listColors, secondPanel);
         }
     }
-}
+
