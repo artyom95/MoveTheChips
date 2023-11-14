@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using NewScripts.Events;
 using NewScripts.GameObjectsPresenter;
 using NewScripts.UIScripts;
+using UniTaskPubSub;
 using UnityEngine;
 
 
@@ -24,12 +27,15 @@ using UnityEngine;
         private readonly Vector3 _secondPanelScale = new(0.25f, 0.25f, 0.25f);
         private readonly Vector3 _position = new(378, -53, 0);
         private readonly Vector3 _newChipPosition = new(480, 0, 0);
+        private AsyncMessageBus _messageBus;
 
         public GraphPresenter(GraphView graphView,
             ChipPresenter chipPresenter,
             NodePresenter nodePresenter,
-            PanelPresenter panelPresenterFactory)
+            PanelPresenter panelPresenterFactory,
+            AsyncMessageBus messageBus)
         {
+            _messageBus = messageBus;
             _graphView = graphView;
             _chipPresenter = chipPresenter;
             _nodePresenter = nodePresenter;
@@ -37,7 +43,7 @@ using UnityEngine;
             _secondPanel = panelPresenterFactory.SecondPanel;
         }
 
-        public void Initialize(List<Vector2> coordinatesPoints,
+        public async Task Initialize(List<Vector2> coordinatesPoints,
             List<Vector2> connectionsBetweenPointPairs,
             List<int> initialPointLocation,
             List<Color> listColors,
@@ -52,7 +58,8 @@ using UnityEngine;
 
             _secondPanel.transform.localScale = _secondPanelScale;
 
-            ShowBoardsEnded?.Invoke();
+           // ShowBoardsEnded?.Invoke();
+           await _messageBus.PublishAsync(new ShowBoardEvent());
         }
 
         private void ShowMainBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,

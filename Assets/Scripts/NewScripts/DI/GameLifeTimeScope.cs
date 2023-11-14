@@ -4,6 +4,7 @@ using NewScripts.GameObjectsPresenter;
 using NewScripts.Node;
 using NewScripts.StateMachine;
 using NewScripts.UIScripts;
+using UniTaskPubSub;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -52,6 +53,8 @@ public class GameLifeTimeScope : LifetimeScope
         
         builder.RegisterComponent(_nodeSelector);
         builder.RegisterComponent(_chipMover);
+        
+        builder.Register<AsyncMessageBus>(Lifetime.Singleton);
         builder.RegisterEntryPoint<GameController>();
 
     }
