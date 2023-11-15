@@ -1,20 +1,26 @@
+using System;
 using System.Collections.Generic;
 using NewScripts.Chip;
-using NewScripts.Node;
+using UniTaskPubSub;
 using UnityEngine;
 
 namespace NewScripts.UIScripts
 {
     public class NodePresenter
+
     {
         private readonly NodeView _nodeView;
+        private IDisposable _subscription;
+        private readonly AsyncMessageBus _messageBus;
 
-        public NodePresenter(NodeView nodeView)
+        public NodePresenter(NodeView nodeView,
+            AsyncMessageBus messageBus)
         {
+            _messageBus = messageBus;
             _nodeView = nodeView;
         }
 
-        public void DisplayNodes(List<ChipModelSettings> listChips,
+        public async void DisplayNodes(List<ChipModelSettings> listChips,
             List<Vector2> coordinatesPoints,
             List<int> initialPointLocation,
             List<Vector2> connectionsBetweenPointPairs,
@@ -25,15 +31,10 @@ namespace NewScripts.UIScripts
                 initialPointLocation,
                 connectionsBetweenPointPairs,
                 finishPointLocation, mainPanel);
-        }
 
-        public List<int> GetFinishPointLocation()
-        {
-            return _nodeView.FinishPointLocation;
-        }
-        public List<NodeModel> GetNodeModelList()
-        {
-            return _nodeView.GetNodeModelList();
+
+            await _messageBus.PublishAsync(new FindFinishPointsLocationEvent(_nodeView.FinishPointLocation));
+            await _messageBus.PublishAsync(new FindNodeModelsList(_nodeView.NodeModelsList));
         }
     }
 }

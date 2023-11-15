@@ -11,12 +11,9 @@ namespace NewScripts.UIScripts
 
         [SerializeField] private NodeModel _nodeModel;
 
-        private List<NodeModel> _nodeModelsList = new();
+        public List<NodeModel> NodeModelsList { get;  } = new();
 
-        public List<NodeModel> GetNodeModelList()
-        {
-            return _nodeModelsList;
-        }
+       
         public void ShowNodes(List<ChipModelSettings> listChips,
             List<Vector2> coordinatesPoints,
             List<int> initialPointLocation,
@@ -31,7 +28,7 @@ namespace NewScripts.UIScripts
                 nodeModel.transform.position = position;
                 nodeModel.SetPosition(position);
                 nodeModel.SetID(i + 1);
-                _nodeModelsList.Add(nodeModel);
+                NodeModelsList.Add(nodeModel);
                 nodeModel.transform.SetParent(mainPanel.transform);
             }
 
@@ -43,11 +40,11 @@ namespace NewScripts.UIScripts
         {
             foreach (var connectionBetweenPointPair in connectionsBetweenPointPairs)
             {
-                _nodeModelsList[(int)(connectionBetweenPointPair.x - 1)]
-                    .SetNeighbours(_nodeModelsList[(int)(connectionBetweenPointPair.y - 1)]);
+                NodeModelsList[(int)(connectionBetweenPointPair.x - 1)]
+                    .SetNeighbours(NodeModelsList[(int)(connectionBetweenPointPair.y - 1)]);
 
-                _nodeModelsList[(int)(connectionBetweenPointPair.y - 1)]
-                    .SetNeighbours(_nodeModelsList[(int)(connectionBetweenPointPair.x - 1)]);
+                NodeModelsList[(int)(connectionBetweenPointPair.y - 1)]
+                    .SetNeighbours(NodeModelsList[(int)(connectionBetweenPointPair.x - 1)]);
             }
         }
 
@@ -56,7 +53,7 @@ namespace NewScripts.UIScripts
             for (var i = 0; i < initialPointLocation.Count; i++)
             {
                 var nodeIndex = initialPointLocation[i];
-                _nodeModelsList[nodeIndex - 1].SetChipModel(listChips[i]);
+                NodeModelsList[nodeIndex - 1].SetChipModel(listChips[i]);
             }
         }
     }

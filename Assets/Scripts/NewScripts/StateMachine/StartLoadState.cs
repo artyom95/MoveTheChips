@@ -18,17 +18,14 @@ public class StartLoadState : IState<GameContext>
     private GameContext _gameContext;
 
     private int _index = -1;
-    private NodePresenter _nodePresenter;
-    private AsyncMessageBus _messageBus;
-    private IDisposable _subscription;
+    private readonly AsyncMessageBus _messageBus;
+    private readonly List<IDisposable> _subscriptions = new();
 
     public StartLoadState(GameSettings gameSettings,
         GraphPresenter graphPresenter,
-        NodePresenter nodePresenter,
         AsyncMessageBus messageBus)
     {
         _messageBus = messageBus;
-        _nodePresenter = nodePresenter;
         _gameSettings = gameSettings;
         _graphPresenter = graphPresenter;
     }
@@ -48,36 +45,39 @@ public class StartLoadState : IState<GameContext>
         var finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
         var connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
 
+        _subscriptions.Add(_messageBus.Subscribe<ShowBoardEvent>(OnShowBoardHandler));
 
-        // _graphPresenter.ShowBoardsEnded += TransitionAnotherState;
-        _subscription = _messageBus.Subscribe<ShowBoardEvent>(OnShowBoardHandler);
-        
+        _subscriptions.Add(_messageBus.Subscribe<FindFinishPointsLocationEvent>(OnFindFinishPointLocationEventHandler));
+        _subscriptions.Add(_messageBus.Subscribe<FindNodeModelsList>(OnFindNodeModelListHandler));
+
+
         _graphPresenter.Initialize(coordinatesPoints,
             connectionsBetweenPointsPairs,
             initialPointLocation,
             listColors,
             finishPointLocation);
-
-        ///разрулить с помощью eventBus
-        _gameContext.FinishPointLocation = _nodePresenter.GetFinishPointLocation();
-        var nodeModelList = _nodePresenter.GetNodeModelList();
-        _gameContext.NodeModelsList = nodeModelList;
-        
     }
 
     public void OnExit()
     {
-        // _graphPresenter.ShowBoardsEnded -= TransitionAnotherState;
-        _subscription?.Dispose();
+        foreach (var subscription in _subscriptions)
+        {
+            subscription?.Dispose();
+        }
     }
 
     private void OnShowBoardHandler(ShowBoardEvent eventData)
     {
         _stateMachine.Enter<SelectFirstNodeState>();
-
     }
-    private void TransitionAnotherState()
+
+    private void OnFindFinishPointLocationEventHandler(FindFinishPointsLocationEvent eventData)
     {
-        _stateMachine.Enter<SelectFirstNodeState>();
+        _gameContext.FinishPointLocation = eventData.FinishPointsLocation;
+    }
+
+    private void OnFindNodeModelListHandler(FindNodeModelsList eventData)
+    {
+        _gameContext.NodeModelsList = eventData.NodeModelsList;
     }
 }
