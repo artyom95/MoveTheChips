@@ -6,11 +6,10 @@ namespace NewScripts.UIScripts
     public class GraphView : MonoBehaviour
     {
         [SerializeField] private Material _materialLineRenderer;
-        private const int _scale = 2;
         private const int _lineRendererWidth = 10;
 
         public void DisplayGraphs(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-            GameObject panel, Vector3 newPosition = default)
+            GameObject panel, bool isItAnotherInstancePosition)
         {
             var numberLine = 0;
             foreach (var connection in connectionsBetweenPointPairs)
@@ -34,42 +33,31 @@ namespace NewScripts.UIScripts
                 line.startWidth = _lineRendererWidth;
                 line.endWidth = _lineRendererWidth;
                 line.material = _materialLineRenderer;
-                if (newPosition != Vector3.zero)
+                if (isItAnotherInstancePosition)
                 {
-                    firstPosition /= _scale;
-                    secondPosition /= _scale;
+                    var localScale = panel.transform.localScale;
+                    firstPosition *= localScale.x;
+                    secondPosition *= localScale.x;
 
-                    line.startWidth = _lineRendererWidth / _scale;
-                    line.endWidth = _lineRendererWidth / _scale;
-                   
-                   
-                }
-
-                line.SetPosition(index, firstPosition);
-                index++;
-                line.SetPosition(index, secondPosition);
-
-
-               if (newPosition != Vector3.zero)
-                {
-                    SetLineRendererNewPosition(line, newPosition);
+                    line.startWidth = _lineRendererWidth * localScale.x;
+                    line.endWidth = _lineRendererWidth * localScale.x;
                 }
 
                 gameObject.transform.SetParent(panel.transform);
+
+                line.useWorldSpace = false;
+                line.gameObject.transform.localPosition = Vector3.zero;
+                line.SetPosition(index, firstPosition);
+                index++;
+                line.SetPosition(index, secondPosition);
+                ResetLineRendererPosition(line);
             }
         }
 
-        private void SetLineRendererNewPosition(LineRenderer line, Vector3 newPosition)
+
+        private void ResetLineRendererPosition(LineRenderer line)
         {
-            var amountPointLineRenderer = line.positionCount;
-            for (int i = 0; i < amountPointLineRenderer; i++)
-            {
-                var localPosition = line.GetPosition(i);
-                var globalPosition = newPosition + localPosition;
-                line.SetPosition(i, globalPosition);
-            }
+            line.transform.localPosition = Vector3.zero;
         }
-        
-        
     }
 }

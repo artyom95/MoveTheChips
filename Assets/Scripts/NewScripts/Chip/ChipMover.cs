@@ -36,12 +36,12 @@ namespace NewScripts.Chip
             {
                 var targetWaypoint = path[currentWaypointIndex];
                 var currentTime = 0f;
-                while (!Mathf.Approximately(chip.transform.position.x, targetWaypoint.x) ||
-                       !Mathf.Approximately(chip.transform.position.y, targetWaypoint.y) ||
-                       !Mathf.Approximately(chip.transform.position.z, targetWaypoint.z))
+                while (!Mathf.Approximately(chip.transform.localPosition.x, targetWaypoint.x) ||
+                       !Mathf.Approximately(chip.transform.localPosition.y, targetWaypoint.y) ||
+                       !Mathf.Approximately(chip.transform.localPosition.z, targetWaypoint.z))
                 {
-                    chip.transform.position =
-                        Vector3.MoveTowards(chip.transform.position, targetWaypoint, _duration * Time.deltaTime);
+                    chip.transform.localPosition =
+                        Vector3.MoveTowards(chip.transform.localPosition, targetWaypoint, _duration * Time.deltaTime);
                     currentTime += Time.deltaTime;
 
                     yield return null;

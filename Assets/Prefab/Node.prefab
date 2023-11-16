@@ -169,4 +169,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fae97044d0265c45ab2f2ab4ab418d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _highlightIntensity: 50
+  _highlightIntensity: 1000

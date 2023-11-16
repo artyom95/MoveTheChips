@@ -23,13 +23,12 @@ namespace NewScripts.UIScripts
             FinishPointLocation = finishPointLocation;
             for (var i = 0; i < coordinatesPoints.Count; i++)
             {
-                var nodeModel = Instantiate(_nodeModel);
+                var nodeModel = Instantiate(_nodeModel, mainPanel.transform, true);
                 var position = new Vector3(coordinatesPoints[i].x, -coordinatesPoints[i].y, 0);
-                nodeModel.transform.position = position;
+                nodeModel.transform.localPosition= position;
                 nodeModel.SetPosition(position);
                 nodeModel.SetID(i + 1);
                 NodeModelsList.Add(nodeModel);
-                nodeModel.transform.SetParent(mainPanel.transform);
             }
 
             FillChipModel(listChips, initialPointLocation);

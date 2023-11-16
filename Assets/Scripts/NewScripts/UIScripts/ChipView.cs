@@ -27,13 +27,22 @@ namespace NewScripts.UIScripts
 
                 chipPosition = new Vector3(xPosition, yPosition, 0);
 
-                var chipModel = Instantiate(_chipModel);
-                chipModel.transform.position = chipPosition;
+                var chipModel = Instantiate(_chipModel, mainPanel.transform, true);
                 chipModel.SetPosition(chipPosition);
                 chipModel.SetID(initialPoint);
                 chipModel.SetColor(colors[sequenceNumberCycle]);
                 _chipsList.Add(chipModel);
-                chipModel.transform.SetParent(mainPanel.transform);
+
+                var transform1 = chipModel.transform;
+                transform1.localPosition = chipPosition;
+                var localScale = mainPanel.transform.localScale;
+                var scale = transform1.localScale;
+                scale = new Vector3(
+                    scale.x * localScale.x,
+                    scale.y * localScale.y,
+                    scale.z * localScale.z);
+                transform1.localScale = scale;
+
                 sequenceNumberCycle++;
             }
 
