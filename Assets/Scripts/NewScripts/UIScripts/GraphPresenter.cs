@@ -39,19 +39,17 @@ public class GraphPresenter
         List<int> finishPointLocation)
     {
         ShowMainBoard(coordinatesPoints, connectionsBetweenPointPairs, initialPointLocation, listColors,
-            finishPointLocation, _mainPanel, isItAnotherInstancePosition: false);
+            finishPointLocation, _mainPanel);
         ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
-            listColors, isItAnotherInstancePosition: true);
+            listColors);
 
         await _messageBus.PublishAsync(new ShowBoardEvent());
     }
 
     private void ShowMainBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-        List<int> initialPointLocation, List<Color> listColors, List<int> finishPointLocation, GameObject mainPanel,
-        bool isItAnotherInstancePosition)
+        List<int> initialPointLocation, List<Color> listColors, List<int> finishPointLocation, GameObject mainPanel)
     {
-        _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, mainPanel,
-            isItAnotherInstancePosition);
+        _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, mainPanel);
         var listChips = _chipPresenter.DisplayChips(coordinatesPoints, initialPointLocation, listColors, mainPanel);
         _nodePresenter.DisplayNodes(listChips, coordinatesPoints, initialPointLocation,
             connectionsBetweenPointPairs,
@@ -59,10 +57,9 @@ public class GraphPresenter
     }
 
     private void ShowSecondBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-        GameObject secondPanel, List<int> finishPointLocation, List<Color> listColors, bool isItAnotherInstancePosition)
+        GameObject secondPanel, List<int> finishPointLocation, List<Color> listColors)
     {
-        _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, secondPanel,
-            isItAnotherInstancePosition);
+        _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, secondPanel);
         _chipPresenter.DisplayChips(coordinatesPoints, finishPointLocation, listColors, secondPanel);
     }
 }

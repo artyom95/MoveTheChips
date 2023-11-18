@@ -9,7 +9,7 @@ namespace NewScripts.UIScripts
         private const int _lineRendererWidth = 10;
 
         public void DisplayGraphs(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-            GameObject panel, bool isItAnotherInstancePosition)
+            GameObject panel)
         {
             var numberLine = 0;
             foreach (var connection in connectionsBetweenPointPairs)
@@ -33,15 +33,15 @@ namespace NewScripts.UIScripts
                 line.startWidth = _lineRendererWidth;
                 line.endWidth = _lineRendererWidth;
                 line.material = _materialLineRenderer;
-                if (isItAnotherInstancePosition)
-                {
+                //if (isItAnotherInstancePosition)
+               // {
                     var localScale = panel.transform.localScale;
                     firstPosition *= localScale.x;
                     secondPosition *= localScale.x;
 
                     line.startWidth = _lineRendererWidth * localScale.x;
                     line.endWidth = _lineRendererWidth * localScale.x;
-                }
+                    //  }
 
                 gameObject.transform.SetParent(panel.transform);
 
@@ -51,6 +51,7 @@ namespace NewScripts.UIScripts
                 index++;
                 line.SetPosition(index, secondPosition);
                 ResetLineRendererPosition(line);
+                
             }
         }
 
