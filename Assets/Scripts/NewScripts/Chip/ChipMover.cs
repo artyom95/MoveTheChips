@@ -1,30 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using NewScripts.Events;
 using NewScripts.StateMachine;
+using UniTaskPubSub;
 using UnityEngine;
+using VContainer;
 
 namespace NewScripts.Chip
 {
     public class ChipMover : MonoBehaviour
     {
         [SerializeField] private float _duration;
-
-        public void StartMove(IReadOnlyList<Vector3> path,
+        private AsyncMessageBus _messageBus;
+        
+        [Inject]
+        public void Construct( AsyncMessageBus messageBus)
+        {
+            _messageBus = messageBus;
+        }
+        public async UniTask StartMove(IReadOnlyList<Vector3> path,
             ChipModelSettings chip,
             GameContext gameContext,
             StateMachine<GameContext> stateMachine)
         {
             if (path.Count != 0)
             {
-                StartCoroutine(MoveAlongPath(path, chip, gameContext, stateMachine));
-            }
-            else
-            {
-                return;
+              await  MoveAlongPath(path, chip, gameContext, stateMachine);
+                
             }
         }
 
-        private IEnumerator MoveAlongPath(IReadOnlyList<Vector3> path,
+        private async UniTask MoveAlongPath(IReadOnlyList<Vector3> path,
             ChipModelSettings chip,
             GameContext gameContext,
             StateMachine<GameContext> stateMachine)
@@ -44,14 +52,15 @@ namespace NewScripts.Chip
                         Vector3.MoveTowards(chip.transform.localPosition, targetWaypoint, _duration * Time.deltaTime);
                     currentTime += Time.deltaTime;
 
-                    yield return null;
+                    await UniTask.Yield();
                 }
 
                 currentWaypointIndex++;
             }
 
             gameContext.FinishNodeModel.SetChipModel(chip);
-            stateMachine.Enter<FinishGameState>();
+           // stateMachine.Enter<FinishGameState>();
+           _messageBus.Publish(new FinishChipMovingEvent());
         }
     }
 }

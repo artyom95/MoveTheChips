@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b437311aefbf6f43b66c8cad0e906ed, type: 3}
   m_Name: StartSettings_ScriptableSettings
   m_EditorClassIdentifier: 
+  <AmountAttempts>k__BackingField: 9
+  <AmountColumnsForGraph>k__BackingField: 3
   <AmountChips>k__BackingField: 6
   <ColorsChips>k__BackingField:
   - {r: 0.91621745, g: 0.9529412, b: 0.031372532, a: 0}

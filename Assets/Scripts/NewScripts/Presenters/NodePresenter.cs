@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewScripts.Chip;
+using NewScripts.UIScripts;
 using UniTaskPubSub;
 using UnityEngine;
 
-namespace NewScripts.UIScripts
+namespace NewScripts.Presenters
 {
     public class NodePresenter
 
@@ -20,7 +22,7 @@ namespace NewScripts.UIScripts
             _nodeView = nodeView;
         }
 
-        public async void DisplayNodes(List<ChipModelSettings> listChips,
+        public async Task DisplayNodes(List<ChipModelSettings> listChips,
             List<Vector2> coordinatesPoints,
             List<int> initialPointLocation,
             List<Vector2> connectionsBetweenPointPairs,
@@ -34,7 +36,12 @@ namespace NewScripts.UIScripts
 
 
             await _messageBus.PublishAsync(new FindFinishPointsLocationEvent(_nodeView.FinishPointLocation));
-            await _messageBus.PublishAsync(new FindNodeModelsList(_nodeView.NodeModelsList));
+            await _messageBus.PublishAsync(new FindNodeModelsListEvent(_nodeView.NodeModelsList));
+        }
+
+        public void ClearNodes()
+        {
+            _nodeView.ClearListNodes();
         }
     }
 }

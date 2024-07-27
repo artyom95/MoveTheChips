@@ -1,96 +1,105 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using NewScripts.Extensions;
 using NewScripts.Node;
-using NewScripts.StateMachine;
+using NewScripts.Presenters;
 using UnityEngine;
 
-public class FinishGameState : IState<GameContext>
+namespace NewScripts.StateMachine
 {
-    private readonly GameOverController _gameOverController;
-
-    private StateMachine<GameContext> _stateMachine;
-    private GameContext _gameContext;
-
-    private bool _isFillFields;
-
-    public FinishGameState(GameOverController gameOverController)
+    public class FinishGameState : IState<GameContext>
     {
-        _gameOverController = gameOverController;
-    }
+        private StateMachine<GameContext> _stateMachine;
+        private GameContext _gameContext;
+
+        private bool _isFillFields;
+        private CompositeDisposable _subscriptions;
+        private readonly GameResultPanelPresenter _gameResultPanelPresenter;
+        private bool _isGameOver;
+
+        public FinishGameState(GameResultPanelPresenter gameResultPanelPresenter)
+        {
+            _gameResultPanelPresenter = gameResultPanelPresenter;
+        }
+
+        public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
+        {
+            _gameContext = gameContext;
+            _stateMachine = stateMachine;
+        }
+
+        public UniTask OnEnter()
+        {
+            var matchesArray = new bool[_gameContext.FinishPointLocation.Count];
+            var nodeModelList = _gameContext.NodeModelsList;
+            var finishPointLocation = _gameContext.FinishPointLocation;
+            
+            CheckOutMatches(finishPointLocation, nodeModelList, matchesArray);
+
+            ShowResultPanel(matchesArray);
+
+            return UniTask.CompletedTask;
+        }
     
-    public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
-    {
-        _gameContext = gameContext;
-        _stateMachine = stateMachine;
-    }
-
-    public void OnEnter()
-    {
-        var matchesArray = new bool[_gameContext.FinishPointLocation.Count];
-        var nodeModelList = _gameContext.NodeModelsList;
-        var finishPointLocation = _gameContext.FinishPointLocation;
-       
-
-        CheckOutMatches(finishPointLocation,nodeModelList, matchesArray);
-
-        var isFinish =  IsItFinishState(matchesArray);
-
-        if (isFinish)
+        private void ShowResultPanel(bool[] matchesArray)
         {
-            _gameOverController.ShowWinScreen();
-            Debug.Log("You Win!!! Congrats");
-        }
-        else
-        {
-            _stateMachine.Enter<SelectFirstNodeState>();
-        }
-    }
-    private void CheckOutMatches(List<int> finishPointLocation,List<NodeModel> nodeModelList, bool[] matchesArray)
-    {
-        
-        for (var i = 0; i < finishPointLocation.Count; i++)
-        {
-            if (finishPointLocation[i] != 0
-                && nodeModelList[i].ChipModel == null)
+            var isFinish = IsFinishState(matchesArray);
+            if (isFinish)
             {
-                _stateMachine.Enter<SelectFirstNodeState>();
-                break;
+                _gameResultPanelPresenter.ShowWinScreen();
             }
-
-            if (finishPointLocation[i] == 0
-                && nodeModelList[i].ChipModel == null)
+            else if (_gameContext.IsGameOver)
             {
-                matchesArray[i] = true;
-                continue;
-            }
-
-            if (finishPointLocation[i] == nodeModelList[i].ChipModel.ID)
-            {
-                matchesArray[i] = true;
-
-            }
-        }
-
-    }
-
-    private bool IsItFinishState( bool[] matchesArray)
-    {
-        var flag = false;
-        foreach (var match in matchesArray)
-        {
-            if (!match)
-            {
-                flag= false;
-                break;
+                _gameResultPanelPresenter.ShowLoseScreen();
             }
             else
             {
-                flag = true;
+                _stateMachine.Enter<SelectFirstNodeState>();
             }
         }
 
-        return flag;
-    }
-    public void OnExit()
-    {
+        private void CheckOutMatches(List<int> finishPointLocation, List<NodeModel> nodeModelList, bool[] matchesArray)
+        {
+            for (var i = 0; i < finishPointLocation.Count; i++)
+            {
+                if (finishPointLocation[i] != 0
+                    && nodeModelList[i].ChipModel == null)
+                {
+                    _stateMachine.Enter<SelectFirstNodeState>();
+                    break;
+                }
+
+                if (finishPointLocation[i] == 0
+                    && nodeModelList[i].ChipModel == null)
+                {
+                    matchesArray[i] = true;
+                    continue;
+                }
+
+                if (finishPointLocation[i] == nodeModelList[i].ChipModel.ID)
+                {
+                    matchesArray[i] = true;
+                }
+            }
+        }
+
+        private bool IsFinishState(bool[] matchesArray)
+        {
+            var flag = true;
+            foreach (var match in matchesArray)
+            {
+                if (!match)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            return flag;
+        }
+
+        public void OnExit()
+        {
+        }
     }
 }

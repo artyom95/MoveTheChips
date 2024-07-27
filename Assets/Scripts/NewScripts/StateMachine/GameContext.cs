@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using NewScripts;
 using NewScripts.Chip;
 using NewScripts.Node;
 using UnityEngine;
@@ -17,4 +15,6 @@ public class GameContext
     public List<Vector3> Path { get; set; } = new();
 
     public ChipModelSettings CurrentChip { get; set; }
+    public int CurrentLoadStageIndex { get; set; }
+    public bool IsGameOver { get; set; }
 }

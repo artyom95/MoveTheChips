@@ -1,62 +1,83 @@
+using Cysharp.Threading.Tasks;
 using NewScripts.Node;
-using NewScripts.StateMachine;
+using UnityEngine;
 
-
-public class SelectSecondNodeState : IState<GameContext>
+namespace NewScripts.StateMachine
 {
-    private readonly NodeSelector _nodeSelector;
-    private readonly PathFinder _pathFinder;
-    private readonly SelectFirstNodeState _selectFirstNodeState;
-
-    private StateMachine<GameContext> _stateMachine;
-    private GameContext _gameContext;
-
-    public SelectSecondNodeState(NodeSelector nodeSelector, PathFinder pathFinder,
-        SelectFirstNodeState selectFirstNodeState)
+    public class SelectSecondNodeState : IState<GameContext>
     {
-        _nodeSelector = nodeSelector;
-        _pathFinder = pathFinder;
-        _selectFirstNodeState = selectFirstNodeState;
-    }
+        private readonly NodeSelector _nodeSelector;
+        private readonly PathFinder _pathFinder;
+        private readonly SelectFirstNodeState _selectFirstNodeState;
 
-    public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
-    {
-        _gameContext = gameContext;
-        _stateMachine = stateMachine;
-    }
+        private StateMachine<GameContext> _stateMachine;
+        private GameContext _gameContext;
+        private readonly GameSettings _gameSettings;
 
-
-    public void OnEnter()
-    {
-        _nodeSelector.FirstNodeModelSelected += _selectFirstNodeState.SaveDataType;
-        _nodeSelector.ChangeStateNodeSelector(typeStateSelector:2);
-        _nodeSelector.SecondNodeModelSelected += SaveFinishNodeModel;
-    }
-
-    private void SaveFinishNodeModel(NodeModel finishNodeModel)
-    {
-        _gameContext.FinishNodeModel = finishNodeModel;
-        FindPath();
-    }
-
-    public void OnExit()
-    {
-        _nodeSelector.SecondNodeModelSelected -= SaveFinishNodeModel;
-        _nodeSelector.FirstNodeModelSelected -= _selectFirstNodeState.SaveDataType;
-    }
-
-    private void FindPath()
-    {
-        var path = _pathFinder.FindMovingPath(_gameContext.NodeModelsList, _gameContext.StartNodeModel,
-            _gameContext.FinishNodeModel);
-
-        if (path.Count != 0)
+        public SelectSecondNodeState(NodeSelector nodeSelector, PathFinder pathFinder,
+            SelectFirstNodeState selectFirstNodeState,
+            GameSettings gameSettings)
         {
-            _gameContext.Path = path;
-            _stateMachine.Enter<ChipMovementState>();
+            _gameSettings = gameSettings;
+            _nodeSelector = nodeSelector;
+            _pathFinder = pathFinder;
+            _selectFirstNodeState = selectFirstNodeState;
         }
-        else
+
+        public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
         {
+            _gameContext = gameContext;
+            _stateMachine = stateMachine;
+        }
+
+
+        public UniTask OnEnter()
+        {
+            Debug.Log("Enter to the SelectSecondNodeState");
+            _nodeSelector.FirstNodeModelSelected += _selectFirstNodeState.FillGameContext;
+            _nodeSelector.SecondNodeModelSelected += SaveFinishNodeModel;
+            _nodeSelector.SwitchedOfOutline += SwitchedOutline;
+        
+            return UniTask.CompletedTask;
+        }
+
+        private void SaveFinishNodeModel(NodeModel finishNodeModel)
+        {
+            _gameContext.FinishNodeModel = finishNodeModel;
+            FindPath();
+        }
+
+        public void OnExit()
+        {
+            _nodeSelector.SecondNodeModelSelected -= SaveFinishNodeModel;
+            _nodeSelector.FirstNodeModelSelected -= _selectFirstNodeState.FillGameContext;
+            _nodeSelector.SwitchedOfOutline -= SwitchedOutline;
+        }
+
+        private void FindPath()
+        {
+            var indexSettings = _gameContext.CurrentLoadStageIndex;
+            var path = _pathFinder.FindMovingPath(_gameSettings.ScriptableSettings[indexSettings].AmountColumnsForGraph,
+                _gameContext.NodeModelsList, _gameContext.StartNodeModel,
+                _gameContext.FinishNodeModel);
+
+            if (path.Count != 0)
+            {
+                _gameContext.Path = path;
+                _stateMachine.Enter<ChipMovementState>();
+            }
+            else
+            {
+                _stateMachine.Enter<SelectFirstNodeState>();
+            }
+        }
+        private void SwitchedOutline()
+        {
+            foreach (var nodeModel in _gameContext.HighlightingNodesList)
+            {
+                nodeModel.TurnOffOutline();
+            }
+            _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
             _stateMachine.Enter<SelectFirstNodeState>();
         }
     }

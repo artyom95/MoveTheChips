@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using NewScripts.Node;
 
-public struct FindNodeModelsList 
+public struct FindNodeModelsListEvent
 {
     public List<NodeModel> NodeModelsList { get; }
 
-    public FindNodeModelsList(List<NodeModel> nodeModelsList)
+    public FindNodeModelsListEvent(List<NodeModel> nodeModelsList)
     {
-       NodeModelsList = new List<NodeModel>();
+        NodeModelsList = new List<NodeModel>();
         NodeModelsList = nodeModelsList;
     }
 }

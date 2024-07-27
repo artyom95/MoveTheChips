@@ -1,83 +1,133 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using NewScripts;
+using Cysharp.Threading.Tasks;
 using NewScripts.Events;
-using NewScripts.StateMachine;
-using NewScripts.UIScripts;
+using NewScripts.Extensions;
+using NewScripts.Presenters;
 using UniTaskPubSub;
-using UnityEngine;
 
-
-public class StartLoadState : IState<GameContext>
+namespace NewScripts.StateMachine
 {
-    private readonly GameSettings _gameSettings;
-    private readonly GraphPresenter _graphPresenter;
-
-    private StateMachine<GameContext> _stateMachine;
-    private GameContext _gameContext;
-
-    private int _index = -1;
-    private readonly AsyncMessageBus _messageBus;
-    private readonly List<IDisposable> _subscriptions = new();
-
-    public StartLoadState(GameSettings gameSettings,
-        GraphPresenter graphPresenter,
-        AsyncMessageBus messageBus)
+    public class StartLoadState : IState<GameContext>
     {
-        _messageBus = messageBus;
-        _gameSettings = gameSettings;
-        _graphPresenter = graphPresenter;
-    }
+        private readonly GameSettings _gameSettings;
+        private readonly GraphPresenter _graphPresenter;
 
-    public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
-    {
-        _stateMachine = stateMachine;
-        _gameContext = gameContext;
-    }
+        private StateMachine<GameContext> _stateMachine;
+        private GameContext _gameContext;
 
-    public void OnEnter()
-    {
-        _index++;
-        var coordinatesPoints = _gameSettings.ScriptableSettings[_index].CoordinatesPoints;
-        var listColors = _gameSettings.ScriptableSettings[_index].ColorsChips;
-        var initialPointLocation = _gameSettings.ScriptableSettings[_index].InitialPointLocation;
-        var finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
-        var connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
+        private int _index;
+        private CompositeDisposable _subscriptions;
+        private readonly AttemptsPresenter _attemptsPresenter;
+        private readonly IAsyncSubscriber _subscriber;
+        private readonly ButtonPresenter _buttonPresenter;
 
-        _subscriptions.Add(_messageBus.Subscribe<ShowBoardEvent>(OnShowBoardHandler));
-
-        _subscriptions.Add(_messageBus.Subscribe<FindFinishPointsLocationEvent>(OnFindFinishPointLocationEventHandler));
-        _subscriptions.Add(_messageBus.Subscribe<FindNodeModelsList>(OnFindNodeModelListHandler));
-
-
-        _graphPresenter.Initialize(coordinatesPoints,
-            connectionsBetweenPointsPairs,
-            initialPointLocation,
-            listColors,
-            finishPointLocation);
-    }
-
-    public void OnExit()
-    {
-        foreach (var subscription in _subscriptions)
+        public StartLoadState(GameSettings gameSettings,
+            GraphPresenter graphPresenter,
+            IAsyncSubscriber subscriber,
+            AttemptsPresenter attemptsPresenter,
+            ButtonPresenter buttonPresenter)
         {
-            subscription?.Dispose();
+            _buttonPresenter = buttonPresenter;
+            _subscriber = subscriber;
+            _attemptsPresenter = attemptsPresenter;
+            _gameSettings = gameSettings;
+            _graphPresenter = graphPresenter;
         }
-    }
 
-    private void OnShowBoardHandler(ShowBoardEvent eventData)
-    {
-        _stateMachine.Enter<SelectFirstNodeState>();
-    }
+        public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
+        {
+            _stateMachine = stateMachine;
+            _gameContext = gameContext;
+        }
 
-    private void OnFindFinishPointLocationEventHandler(FindFinishPointsLocationEvent eventData)
-    {
-        _gameContext.FinishPointLocation = eventData.FinishPointsLocation;
-    }
+        public UniTask OnEnter()
+        {
+            _index = _gameContext.CurrentLoadStageIndex;
+            //_index = 1;
+            _subscriptions = new CompositeDisposable()
+            {
+                _subscriber.Subscribe<ShowBoardEvent>(OnShowBoardHandler),
+                _subscriber.Subscribe<FindFinishPointsLocationEvent>(OnFindFinishPointLocationEventHandler),
+                _subscriber.Subscribe<FindNodeModelsListEvent>(OnFindNodeModelListHandler),
+            };
 
-    private void OnFindNodeModelListHandler(FindNodeModelsList eventData)
-    {
-        _gameContext.NodeModelsList = eventData.NodeModelsList;
+            Initialize();
+
+            return UniTask.CompletedTask;
+        }
+
+        private async void Initialize()
+        {
+            var coordinatesPoints = _gameSettings.ScriptableSettings[_index].CoordinatesPoints;
+            var listColors = _gameSettings.ScriptableSettings[_index].ColorsChips;
+            var initialPointLocation = _gameSettings.ScriptableSettings[_index].InitialPointLocation;
+            var finishPointLocation = _gameSettings.ScriptableSettings[_index].FinishPointLocation;
+            var connectionsBetweenPointsPairs = _gameSettings.ScriptableSettings[_index].ConnectionsBetweenPointPairs;
+
+            await _graphPresenter.Initialize(coordinatesPoints,
+                connectionsBetweenPointsPairs,
+                initialPointLocation,
+                listColors,
+                finishPointLocation);
+
+            _buttonPresenter.Initialize(LoadNextStage, LoadCurrentStage);
+            _attemptsPresenter.Initialize(_gameSettings.ScriptableSettings[_index].AmountAttempts, SetGameOverFlag);
+        }
+
+        public void OnExit()
+        {
+            _subscriptions.Dispose();
+        }
+
+        private void OnShowBoardHandler(ShowBoardEvent eventData)
+        {
+            _stateMachine.Enter<SelectFirstNodeState>();
+        }
+
+        private void OnFindFinishPointLocationEventHandler(FindFinishPointsLocationEvent eventData)
+        {
+            _gameContext.FinishPointLocation = eventData.FinishPointsLocation;
+        }
+
+        private void OnFindNodeModelListHandler(FindNodeModelsListEvent eventData)
+        {
+            _gameContext.NodeModelsList = eventData.NodeModelsList;
+        }
+
+        private void SetGameOverFlag()
+        {
+            _gameContext.IsGameOver = true;
+        }
+
+        private void LoadCurrentStage()
+        {
+            ResetSettings();
+            _stateMachine.Enter<StartLoadState>();
+        }
+
+        private void LoadNextStage()
+        {
+            if (_gameContext.CurrentLoadStageIndex >= _gameSettings.ScriptableSettings.Count)
+            {
+                _gameContext.CurrentLoadStageIndex = _gameSettings.ScriptableSettings.Count - 1;
+            }
+            else if (_gameContext.CurrentLoadStageIndex == _gameSettings.ScriptableSettings.Count - 1)
+            {
+                _gameContext.CurrentLoadStageIndex = _gameContext.CurrentLoadStageIndex;
+            }
+            else
+            {
+                _gameContext.CurrentLoadStageIndex += 1;
+            }
+
+            ResetSettings();
+            _stateMachine.Enter<StartLoadState>();
+        }
+
+        private void ResetSettings()
+        {
+            _graphPresenter.ClearGraph();
+            _gameContext.IsGameOver = false;
+            _attemptsPresenter.ResetAttempts();
+        }
     }
 }

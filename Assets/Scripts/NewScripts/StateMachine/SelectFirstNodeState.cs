@@ -1,76 +1,81 @@
+using Cysharp.Threading.Tasks;
 using NewScripts.Node;
-using NewScripts.StateMachine;
 using NewScripts.UIScripts;
+using UnityEngine;
 
-
-public class SelectFirstNodeState : IState<GameContext>
+namespace NewScripts.StateMachine
 {
-    private readonly NodeSelector _nodeSelector;
-    private readonly NodeView _nodeView;
-    private readonly PathFinder _pathFinder;
-
-    private StateMachine<GameContext> _stateMachine;
-    private GameContext _gameContext;
-
-
-    public SelectFirstNodeState(NodeSelector nodeSelector, PathFinder pathFinder)
+    public class SelectFirstNodeState : IState<GameContext>
     {
-        _nodeSelector = nodeSelector;
-        _pathFinder = pathFinder;
-    }
+        private readonly NodeSelector _nodeSelector;
+        private readonly NodeView _nodeView;
+        private readonly PathFinder _pathFinder;
 
-    public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
-    {
-        _gameContext = gameContext;
-        _stateMachine = stateMachine;
-    }
+        private StateMachine<GameContext> _stateMachine;
+        private GameContext _gameContext;
 
-    public void OnEnter()
-    {
-        _nodeSelector.FirstNodeModelSelected += SaveDataType;
 
-        _nodeSelector.ChangeStateNodeSelector(typeStateSelector: 1);
-    }
-
-    public void SaveDataType<T>(T dataType)
-    {
-        if (dataType is NodeModel startNodeModel)
+        public SelectFirstNodeState(NodeSelector nodeSelector, 
+            PathFinder pathFinder)
         {
-            ResetHighlightNodes();
-            _gameContext.StartNodeModel = startNodeModel;
-            _gameContext.HighlightingNodesList = _pathFinder.FindHighlightingPath(_gameContext.StartNodeModel);
-            HighlightNodes();
-        }
-    }
-
-    public void OnExit()
-    {
-        _nodeSelector.FirstNodeModelSelected -= SaveDataType;
-    }
-
-    private void HighlightNodes()
-    {
-        foreach (var nodeModel in _gameContext.HighlightingNodesList)
-        {
-            nodeModel.TurnOnOutline();
+            _nodeSelector = nodeSelector;
+            _pathFinder = pathFinder;
         }
 
-        if (_gameContext.HighlightingNodesList.Count > 0)
+        public void Initialize(StateMachine<GameContext> stateMachine, GameContext gameContext)
         {
-            _stateMachine.Enter<SelectSecondNodeState>();
+            _gameContext = gameContext;
+            _stateMachine = stateMachine;
         }
-        else
-        {
-            _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
-            _stateMachine.Enter<SelectFirstNodeState>();
-        }
-    }
 
-    private void ResetHighlightNodes()
-    {
-        foreach (var nodeModel in _gameContext.HighlightingNodesList)
+        public UniTask OnEnter()
+        { 
+            Debug.Log("Enter to the SelectFirstNodeState");
+            _nodeSelector.ChangeStateNodeSelector(false);
+            _nodeSelector.FirstNodeModelSelected += FillGameContext;
+            return UniTask.CompletedTask;
+        }
+    
+        public void FillGameContext<T>(T dataType)
         {
-            nodeModel.TurnOffOutline();
+            if (dataType is NodeModel startNodeModel)
+            {
+                ResetHighlightNodes();
+                _gameContext.StartNodeModel = startNodeModel;
+                _gameContext.HighlightingNodesList = _pathFinder.FindHighlightingPath(_gameContext.StartNodeModel);
+                HighlightNodes();
+            }
+        }
+
+        public void OnExit()
+        {
+            _nodeSelector.FirstNodeModelSelected -= FillGameContext;
+        }
+
+        private void HighlightNodes()
+        {
+            foreach (var nodeModel in _gameContext.HighlightingNodesList)
+            {
+                nodeModel.TurnOnOutline();
+            }
+
+            if (_gameContext.HighlightingNodesList.Count > 0)
+            {
+                _stateMachine.Enter<SelectSecondNodeState>();
+            }
+            else
+            {
+                _gameContext.StartNodeModel.ChipModel.TurnOffOutline();
+                _stateMachine.Enter<SelectFirstNodeState>();
+            }
+        }
+
+        private void ResetHighlightNodes()
+        {
+            foreach (var nodeModel in _gameContext.HighlightingNodesList)
+            {
+                nodeModel.TurnOffOutline();
+            }
         }
     }
 }

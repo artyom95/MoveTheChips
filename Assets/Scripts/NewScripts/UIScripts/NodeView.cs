@@ -8,10 +8,11 @@ namespace NewScripts.UIScripts
     public class NodeView : MonoBehaviour
     {
         public List<int> FinishPointLocation { get; private set; } = new();
-
+        public List<NodeModel> NodeModelsList { get; } = new();
+        
         [SerializeField] private NodeModel _nodeModel;
 
-        public List<NodeModel> NodeModelsList { get;  } = new();
+       
 
        
         public void ShowNodes(List<ChipModelSettings> listChips,
@@ -35,6 +36,14 @@ namespace NewScripts.UIScripts
             FillNeighbours(connectionsBetweenPointPairs);
         }
 
+        public void ClearListNodes()
+        {
+            foreach (var nodeModel in NodeModelsList)
+            {
+                Destroy(nodeModel.gameObject);
+            }
+            NodeModelsList.Clear();
+        }
         private void FillNeighbours(List<Vector2> connectionsBetweenPointPairs)
         {
             foreach (var connectionBetweenPointPair in connectionsBetweenPointPairs)
