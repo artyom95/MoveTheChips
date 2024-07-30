@@ -15,24 +15,34 @@ namespace NewScripts.Presenters
         }
 
         public List<ChipModelSettings> DisplayChips(List<Vector2> coordinatePoints,
-            List<int> initialPointLocation,
-            List<Color> listColors, GameObject mainPanel)
+            List<int> pointLocation,
+            List<Color> listColors, GameObject rootPanel, bool isTargetChip = false,
+            List<int> initialPointLocation = null)
         {
-            var mainChipList = _chipView.ShowChips(coordinatePoints, initialPointLocation, listColors, mainPanel);
-            return mainChipList;
+            var chipList = new List<ChipModelSettings>();
+            if (!isTargetChip && initialPointLocation == null)
+            {
+                chipList = _chipView.ShowChips(coordinatePoints, pointLocation, listColors, rootPanel);
+            }
+            else
+            {
+                chipList = _chipView.ShowChips(coordinatePoints, pointLocation, listColors, rootPanel, isTargetChip,
+                    initialPointLocation);
+            }
+            return chipList;
         }
 
-        public List<ChipModelSettings> DisplayTargetChips(List<Vector2> coordinatePoints,
-            List<int> finishPointLocation, List<int> initialPointLocation,
-            List<Color> listColors, GameObject mainPanel)
-        {
-            var targetChipList = _chipView.ShowTargetChips(coordinatePoints,
-                finishPointLocation,
-                initialPointLocation,
-                listColors,
-                mainPanel);
-            return targetChipList;
-        }
+        //    public List<ChipModelSettings> DisplayTargetChips(List<Vector2> coordinatePoints,
+        //        List<int> finishPointLocation, List<int> pointLocation,
+        //        List<Color> listColors, GameObject rootPanel)
+        //    {
+        //        var targetChipList = _chipView.ShowTargetChips(coordinatePoints,
+        //            finishPointLocation,
+        //            pointLocation,
+        //            listColors,
+        //            rootPanel);
+        //        return targetChipList;
+        //    }
 
         public void Clear()
         {

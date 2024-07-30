@@ -33,7 +33,6 @@ namespace NewScripts.StateMachine
 
         public UniTask OnEnter()
         {
-            Debug.Log("Enter to the SelectSecondNodeState");
             _nodeSelector.FirstNodeModelSelected += _selectFirstNodeState.FillGameContext;
             _nodeSelector.SecondNodeModelSelected += SaveFinishNodeModel;
             _nodeSelector.SwitchedOfOutline += SwitchedOutline;

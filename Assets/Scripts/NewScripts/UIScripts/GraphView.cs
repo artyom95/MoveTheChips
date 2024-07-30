@@ -7,16 +7,16 @@ namespace NewScripts.UIScripts
     {
         [SerializeField] private Material _materialLineRenderer;
         private const int _lineRendererWidth = 10;
-        private List<LineRenderer> _listMainLines = new ();
-        private List<LineRenderer> _listTargetLines = new ();
-        
+        private List<LineRenderer> _listMainLines = new();
+        private List<LineRenderer> _listTargetLines = new();
+
         public void DisplayGraphs(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
             GameObject panel, string nameListLines)
         {
             var numberLine = 0;
             foreach (var connection in connectionsBetweenPointPairs)
             {
-                 DrawLine(coordinatesPoints, panel, numberLine, connection, nameListLines );
+                DrawLine(coordinatesPoints, panel, numberLine, connection, nameListLines);
             }
         }
 
@@ -32,57 +32,66 @@ namespace NewScripts.UIScripts
             {
                 Destroy(lineRenderer.gameObject);
             }
+
             list.Clear();
         }
+
         private void DrawLine(List<Vector2> coordinatesPoints, GameObject panel, int numberLine, Vector2 connection,
             string nameListLines)
         {
-            var index = 0;
             numberLine++;
-            var firstIndexPosition = (int)(connection.x - 1);
-            var firstPosition = new Vector3(coordinatesPoints[firstIndexPosition].x,
-                -coordinatesPoints[firstIndexPosition].y, 0);
+            var firstPosition = GetAdjustedPosition(coordinatesPoints[(int)(connection.x - 1)]);
+            var secondPosition = GetAdjustedPosition(coordinatesPoints[(int)(connection.y - 1)]);
 
-            var secondIndexPosition = (int)(connection.y - 1);
-            var secondPosition = new Vector3(coordinatesPoints[secondIndexPosition].x,
-                -coordinatesPoints[secondIndexPosition].y, 0);
+            var lineObject = CreateLineObject(numberLine, panel);
+            var lineRenderer = lineObject.GetComponent<LineRenderer>();
 
-            var gameObject = new GameObject
-            {
-                name = "line" + numberLine
-            };
-            var line = gameObject.AddComponent<LineRenderer>();
-            line.startWidth = _lineRendererWidth;
-            line.endWidth = _lineRendererWidth;
-            line.material = _materialLineRenderer;
+            SetupLineRenderer(lineRenderer, firstPosition, secondPosition, panel.transform.localScale);
 
-            var localScale = panel.transform.localScale;
+            AddLineToList(lineRenderer, nameListLines);
+            ResetLineRendererPosition(lineRenderer);
+        }
 
-            line.startWidth = _lineRendererWidth * localScale.x;
-            line.endWidth = _lineRendererWidth * localScale.x;
+        private Vector3 GetAdjustedPosition(Vector2 point)
+        {
+            return new Vector3(point.x, -point.y, 0);
+        }
 
-            gameObject.transform.SetParent(panel.transform);
-            line.useWorldSpace = false;
-            line.SetPosition(index, firstPosition);
-            index++;
-            line.SetPosition(index, secondPosition);
-            line.gameObject.transform.localScale = Vector3.one;
-            
+        private GameObject CreateLineObject(int numberLine, GameObject panel)
+        {
+            GameObject lineObject = new GameObject("line" + numberLine);
+            lineObject.transform.SetParent(panel.transform);
+            lineObject.AddComponent<LineRenderer>();
+            return lineObject;
+        }
+
+        private void SetupLineRenderer(LineRenderer lineRenderer, Vector3 firstPosition, Vector3 secondPosition,
+            Vector3 scale)
+        {
+            lineRenderer.startWidth = _lineRendererWidth * scale.x;
+            lineRenderer.endWidth = _lineRendererWidth * scale.x;
+            lineRenderer.material = _materialLineRenderer;
+            lineRenderer.useWorldSpace = false;
+            lineRenderer.SetPosition(0, firstPosition);
+            lineRenderer.SetPosition(1, secondPosition);
+            lineRenderer.gameObject.transform.localScale = Vector3.one;
+        }
+
+        private void AddLineToList(LineRenderer lineRenderer, string nameListLines)
+        {
             if (nameListLines.Equals("main"))
             {
-                _listMainLines.Add(line);
+                _listMainLines.Add(lineRenderer);
             }
             else
             {
-                _listTargetLines.Add(line);
+                _listTargetLines.Add(lineRenderer);
             }
-            ResetLineRendererPosition(line);
         }
 
         private void ResetLineRendererPosition(LineRenderer line)
         {
             line.transform.localPosition = Vector3.zero;
         }
-        
     }
 }

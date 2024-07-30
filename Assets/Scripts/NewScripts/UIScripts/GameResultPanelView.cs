@@ -22,10 +22,5 @@ namespace NewScripts.UIScripts
         {
             _losePanel.gameObject.SetActive(true);
         }
-
-        public void HideLoseScreen()
-        {
-            _losePanel.SetActive(false);
-        }
     }
 }

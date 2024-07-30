@@ -76,11 +76,11 @@ namespace NewScripts
             foreach (var vector2 in indexList)
             {
                 var count = 0;
-                for (var index0 = 0; index0 < nodeArray.GetLength(0); index0++)
+                for (var firstIndex = 0; firstIndex < nodeArray.GetLength(0); firstIndex++)
                 {
-                    for (var index1 = 0; index1 < nodeArray.GetLength(1); index1++)
+                    for (var secondIndex = 0; secondIndex < nodeArray.GetLength(1); secondIndex++)
                     {
-                        if (index0 == vector2.x && index1 == vector2.y)
+                        if (firstIndex == vector2.x && secondIndex == vector2.y)
                         {
                             var nodeModel = nodeModelsList[count];
                             rootArray.Add(nodeModel.Position);
@@ -122,7 +122,7 @@ namespace NewScripts
                         indexList.AddFirst(new Vector2(x - 2, y - 1));
                         points.Enqueue(new Vector2(x - 1, y));
                         count++;
-                        //  _coordinatesPointsPath.Add(new Vector2(x - 1, y - 1));
+                        continue;
                     }
 
                     if (labirint[x + 1, y] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,
@@ -131,6 +131,7 @@ namespace NewScripts
                         indexList.AddFirst(new Vector2(x, y - 1));
                         points.Enqueue(new Vector2(x + 1, y));
                         count++;
+                        continue;
                     }
 
                     if (labirint[x, y - 1] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,
@@ -139,6 +140,7 @@ namespace NewScripts
                         indexList.AddFirst(new Vector2(x - 1, y - 2));
                         points.Enqueue(new Vector2(x, y - 1));
                         count++;
+                        continue;
                     }
 
                     if (labirint[x, y + 1] == labirint[x, y] - 1 && IsNodesNeighbours(currentNodeModel,

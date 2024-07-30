@@ -15,7 +15,7 @@ namespace NewScripts.StateMachine
         private GameContext _gameContext;
 
 
-        public SelectFirstNodeState(NodeSelector nodeSelector, 
+        public SelectFirstNodeState(NodeSelector nodeSelector,
             PathFinder pathFinder)
         {
             _nodeSelector = nodeSelector;
@@ -29,13 +29,12 @@ namespace NewScripts.StateMachine
         }
 
         public UniTask OnEnter()
-        { 
-            Debug.Log("Enter to the SelectFirstNodeState");
+        {
             _nodeSelector.ChangeStateNodeSelector(false);
             _nodeSelector.FirstNodeModelSelected += FillGameContext;
             return UniTask.CompletedTask;
         }
-    
+
         public void FillGameContext<T>(T dataType)
         {
             if (dataType is NodeModel startNodeModel)

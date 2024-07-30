@@ -1,6 +1,9 @@
-public interface IHighlightable
+namespace NewScripts
 {
-    public void TurnOnOutline();
+    public interface IHighlightable
+    {
+        public void TurnOnOutline();
 
-    public void TurnOffOutline();
+        public void TurnOffOutline();
+    }
 }

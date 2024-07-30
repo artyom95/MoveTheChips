@@ -9,12 +9,9 @@ namespace NewScripts.UIScripts
     {
         public List<int> FinishPointLocation { get; private set; } = new();
         public List<NodeModel> NodeModelsList { get; } = new();
-        
+
         [SerializeField] private NodeModel _nodeModel;
 
-       
-
-       
         public void ShowNodes(List<ChipModelSettings> listChips,
             List<Vector2> coordinatesPoints,
             List<int> initialPointLocation,
@@ -26,7 +23,7 @@ namespace NewScripts.UIScripts
             {
                 var nodeModel = Instantiate(_nodeModel, mainPanel.transform, true);
                 var position = new Vector3(coordinatesPoints[i].x, -coordinatesPoints[i].y, 0);
-                nodeModel.transform.localPosition= position;
+                nodeModel.transform.localPosition = position;
                 nodeModel.SetPosition(position);
                 nodeModel.SetID(i + 1);
                 NodeModelsList.Add(nodeModel);
@@ -42,8 +39,10 @@ namespace NewScripts.UIScripts
             {
                 Destroy(nodeModel.gameObject);
             }
+
             NodeModelsList.Clear();
         }
+
         private void FillNeighbours(List<Vector2> connectionsBetweenPointPairs)
         {
             foreach (var connectionBetweenPointPair in connectionsBetweenPointPairs)
