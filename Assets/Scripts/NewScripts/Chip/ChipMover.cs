@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using NewScripts.Events;
 using NewScripts.StateMachine;
@@ -14,12 +12,13 @@ namespace NewScripts.Chip
     {
         [SerializeField] private float _duration;
         private AsyncMessageBus _messageBus;
-        
+
         [Inject]
-        public void Construct( AsyncMessageBus messageBus)
+        public void Construct(AsyncMessageBus messageBus)
         {
             _messageBus = messageBus;
         }
+
         public async UniTask StartMove(IReadOnlyList<Vector3> path,
             ChipModelSettings chip,
             GameContext gameContext,
@@ -27,8 +26,7 @@ namespace NewScripts.Chip
         {
             if (path.Count != 0)
             {
-              await  MoveAlongPath(path, chip, gameContext, stateMachine);
-                
+                await MoveAlongPath(path, chip, gameContext, stateMachine);
             }
         }
 
@@ -59,8 +57,7 @@ namespace NewScripts.Chip
             }
 
             gameContext.FinishNodeModel.SetChipModel(chip);
-           // stateMachine.Enter<FinishGameState>();
-           _messageBus.Publish(new FinishChipMovingEvent());
+            _messageBus.Publish(new FinishChipMovingEvent());
         }
     }
 }

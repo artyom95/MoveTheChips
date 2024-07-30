@@ -25,14 +25,12 @@ public class GameLifeTimeScope : LifetimeScope
 
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private GameObject _losePanel;
-    
-   
 
     protected override void Configure(IContainerBuilder builder)
     {
         base.Configure(builder);
         RegisterGameStateMachine(builder);
-        
+
         builder.Register<ChipPresenter>(Lifetime.Singleton);
         builder.Register<GraphPresenter>(Lifetime.Singleton);
         builder.Register<NodePresenter>(Lifetime.Singleton);
@@ -52,18 +50,17 @@ public class GameLifeTimeScope : LifetimeScope
         builder.RegisterInstance(_gameSetings);
         builder.RegisterInstance(_attemptsView);
         builder.RegisterInstance(_buttonPresenter);
-      
+
 
         var panelPresenterFactory = new PanelProvider(_mainPanel, _secondPanel, _winPanel, _losePanel);
         builder.RegisterInstance(panelPresenterFactory);
-        
+
         builder.RegisterComponent(_nodeSelector);
         builder.RegisterComponent(_chipMover);
-        
+
         builder.Register<AsyncMessageBus>(Lifetime.Singleton)
             .AsImplementedInterfaces().AsSelf();
         builder.RegisterEntryPoint<GameController>();
-
     }
 
     private static void RegisterGameStateMachine(IContainerBuilder builder)

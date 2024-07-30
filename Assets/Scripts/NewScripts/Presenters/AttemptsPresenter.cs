@@ -3,7 +3,6 @@ using NewScripts.Events;
 using NewScripts.Extensions;
 using NewScripts.UIScripts;
 using UniTaskPubSub;
-using UnityEngine;
 
 namespace NewScripts.Presenters
 {
@@ -15,12 +14,10 @@ namespace NewScripts.Presenters
         private readonly AttemptsModel _attemptsModel;
         private Action _attemptsEnded;
 
-
         public AttemptsPresenter(AttemptsView attemptsView,
             AttemptsModel attemptsModel,
             IAsyncSubscriber subscriber)
         {
-            
             _attemptsModel = attemptsModel;
             _subscriber = subscriber;
             _attemptsView = attemptsView;
@@ -40,18 +37,14 @@ namespace NewScripts.Presenters
         }
 
         private void IncreaseAttemptHandler(IncreaseAttemptEvent arg1)
-        { 
-          
+        {
             var currentAttempt = _attemptsModel.IncreaseAmountAttempt();
-            Debug.Log("Attempt increased");
             if (_attemptsModel.IsGameOver())
             {
-                //_messageBus.Publish(new ShowGameOverScreenEvent());
                 _attemptsEnded?.Invoke();
             }
 
             _attemptsView.ShowCurrentAttempt(currentAttempt);
-           
         }
 
 

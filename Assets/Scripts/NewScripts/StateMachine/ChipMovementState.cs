@@ -30,8 +30,7 @@ namespace NewScripts.StateMachine
             _gameContext = gameContext;
             _stateMachine = stateMachine;
         }
-
-       
+        
         public async UniTask OnEnter()
         {
             _subscription = _messageBus.Subscribe<FinishChipMovingEvent>(_ => _stateMachine.Enter<FinishGameState>());

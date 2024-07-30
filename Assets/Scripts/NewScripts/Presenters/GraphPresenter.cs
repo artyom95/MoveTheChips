@@ -1,78 +1,78 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NewScripts;
 using NewScripts.Chip;
 using NewScripts.Events;
-using NewScripts.Presenters;
 using NewScripts.UIScripts;
 using UniTaskPubSub;
 using UnityEngine;
 
-
-public class GraphPresenter
+namespace NewScripts.Presenters
 {
-    private readonly GameObject _mainPanel;
-    private readonly GameObject _secondPanel;
-    private readonly GraphView _graphView;
-    private readonly ChipPresenter _chipPresenter;
-    private readonly NodePresenter _nodePresenter;
-    private readonly AsyncMessageBus _messageBus;
-    private List<ChipModelSettings> _listMainChips;
-
-    public GraphPresenter(GraphView graphView,
-        ChipPresenter chipPresenter,
-        NodePresenter nodePresenter,
-        PanelProvider panelProviderFactory,
-        AsyncMessageBus messageBus)
+    public class GraphPresenter
     {
-        _messageBus = messageBus;
-        _graphView = graphView;
-        _chipPresenter = chipPresenter;
-        _nodePresenter = nodePresenter;
-        _mainPanel = panelProviderFactory.MainPanel;
-        _secondPanel = panelProviderFactory.SecondPanel;
-    }
+        private readonly GameObject _mainPanel;
+        private readonly GameObject _secondPanel;
+        private readonly GraphView _graphView;
+        private readonly ChipPresenter _chipPresenter;
+        private readonly NodePresenter _nodePresenter;
+        private readonly AsyncMessageBus _messageBus;
+        private List<ChipModelSettings> _listMainChips;
 
-    public async Task Initialize(List<Vector2> coordinatesPoints,
-        List<Vector2> connectionsBetweenPointPairs,
-        List<int> initialPointLocation,
-        List<Color> listColors,
-        List<int> finishPointLocation)
-    {
-        await ShowMainBoard(coordinatesPoints, connectionsBetweenPointPairs, initialPointLocation, listColors,
-            finishPointLocation, _mainPanel);
-        ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
-            initialPointLocation,
-            listColors);
+        public GraphPresenter(GraphView graphView,
+            ChipPresenter chipPresenter,
+            NodePresenter nodePresenter,
+            PanelProvider panelProviderFactory,
+            AsyncMessageBus messageBus)
+        {
+            _messageBus = messageBus;
+            _graphView = graphView;
+            _chipPresenter = chipPresenter;
+            _nodePresenter = nodePresenter;
+            _mainPanel = panelProviderFactory.MainPanel;
+            _secondPanel = panelProviderFactory.SecondPanel;
+        }
 
-        await _messageBus.PublishAsync(new ShowBoardEvent());
-    }
+        public async Task Initialize(List<Vector2> coordinatesPoints,
+            List<Vector2> connectionsBetweenPointPairs,
+            List<int> initialPointLocation,
+            List<Color> listColors,
+            List<int> finishPointLocation)
+        {
+            await ShowMainBoard(coordinatesPoints, connectionsBetweenPointPairs, initialPointLocation, listColors,
+                finishPointLocation, _mainPanel);
+            ShowSecondBoard(coordinatesPoints, connectionsBetweenPointPairs, _secondPanel, finishPointLocation,
+                initialPointLocation,
+                listColors);
 
-    public void ClearGraph()
-    {
-        _graphView.Clear();
-        _chipPresenter.Clear();
-        _nodePresenter.ClearNodes();
-    }
+            await _messageBus.PublishAsync(new ShowBoardEvent());
+        }
 
-    private async Task ShowMainBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-        List<int> pointLocation, List<Color> listColors, List<int> finishPointLocation, GameObject mainPanel)
-    {
-        _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, mainPanel, "main");
+        public void ClearGraph()
+        {
+            _graphView.Clear();
+            _chipPresenter.Clear();
+            _nodePresenter.ClearNodes();
+        }
 
-        _listMainChips = _chipPresenter.DisplayChips(coordinatesPoints, pointLocation, listColors, mainPanel);
+        private async Task ShowMainBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
+            List<int> pointLocation, List<Color> listColors, List<int> finishPointLocation, GameObject mainPanel)
+        {
+            _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, mainPanel, "main");
 
-        await _nodePresenter.DisplayNodes(_listMainChips, coordinatesPoints, pointLocation,
-            connectionsBetweenPointPairs,
-            finishPointLocation, mainPanel);
-    }
+            _listMainChips = _chipPresenter.DisplayChips(coordinatesPoints, pointLocation, listColors, mainPanel);
 
-    private void ShowSecondBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
-        GameObject secondPanel, List<int> finishPointLocation, List<int> initialPointLocation, List<Color> listColors)
-    {
-        _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, secondPanel, "target");
+            await _nodePresenter.DisplayNodes(_listMainChips, coordinatesPoints, pointLocation,
+                connectionsBetweenPointPairs,
+                finishPointLocation, mainPanel);
+        }
 
-        _chipPresenter.DisplayChips(coordinatesPoints, finishPointLocation, listColors, secondPanel, true,
-            initialPointLocation);
+        private void ShowSecondBoard(List<Vector2> coordinatesPoints, List<Vector2> connectionsBetweenPointPairs,
+            GameObject secondPanel, List<int> finishPointLocation, List<int> initialPointLocation, List<Color> listColors)
+        {
+            _graphView.DisplayGraphs(coordinatesPoints, connectionsBetweenPointPairs, secondPanel, "target");
+
+            _chipPresenter.DisplayChips(coordinatesPoints, finishPointLocation, listColors, secondPanel, true,
+                initialPointLocation);
+        }
     }
 }

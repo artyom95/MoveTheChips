@@ -42,7 +42,6 @@ namespace NewScripts.StateMachine
         public UniTask OnEnter()
         {
             _index = _gameContext.CurrentLoadStageIndex;
-            //_index = 1;
             _subscriptions = new CompositeDisposable()
             {
                 _subscriber.Subscribe<ShowBoardEvent>(OnShowBoardHandler),
